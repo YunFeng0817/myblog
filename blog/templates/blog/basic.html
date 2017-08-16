@@ -57,6 +57,40 @@
     </div>
 </nav>
 
+{% block content %}{% endblock %}
+
+<!--模态框部分-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {% block insert-Title %}登录{% endblock %}
+      </div>
+      <div class="modal-body">
+        {% block insert-content %}{% endblock %}
+      </div>
+      <div class="modal-footer">
+        {% block insert-footer %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--页脚部分-->
+<footer class="text-center navbar-fixed-bottom" style="line-height: 20px;color: #9d9d9d ">
+    <hr>
+    <ul class="list-inline">
+        <li>感谢开源项目：<a href="http://www.djangoproject.com/">Django</a></li>
+        <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
+    </ul>
+    <ul class="list-inline">
+        <li>项目源码管理<li><a href="https://github.com/Fitz5264/myblog">GitHub</a></li></li>
+    </ul>
+    <p>Copyright &copy; 2017, All Rights Reserved</p>
+
+</footer>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="/blog/static/blog/bootstrap/js/bootstrap.min.js"></script>
 <script>
