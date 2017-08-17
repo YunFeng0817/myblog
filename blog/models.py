@@ -14,9 +14,9 @@ class blogger(models.Model):
 
 class blogs(models.Model):
     title = models.CharField(max_length=100)
-    content = models.CharField(max_length=1000000)
+    content = models.CharField(max_length=10000)
     author = models.ForeignKey(blogger)     #一篇日志可以对应一个作者，但一个作者可以写多个日志 ，故用foreignkey    一本书由多个作者编写，一个作者可以写很多本书，故用manytomanyField
-    writDate = models.DateField()
+    writDate = models.DateField(timezone.datetime.now())
 
     def __int__(self):
         self.writDate = timezone.datetime.now()
