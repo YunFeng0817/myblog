@@ -26,7 +26,7 @@
         <div class="collapse navbar-collapse">
 
             <ul class="nav navbar-nav " data-toggle="tab">
-                <li class="active"><a href="#">主页<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">主页<span class="sr-only">(current)</span></a></li>
                 <li><a href="#">小日记</a></li>
                 <li><a href="#">收获</a></li>
                 <li><a href="#">旅游</a></li>
@@ -36,7 +36,7 @@
 
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% block login %}登陆{% endblock %} <span class="caret"></span></a>
+                  {% block login %}<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆 <span class="caret"></span></a>{% endblock %}
                   <ul class="dropdown-menu">
                     <li><a href="#">设置</a></li>
                     <li><a href="#">修改密码</a></li>
@@ -98,7 +98,7 @@
 <script type="text/javascript">
     //这一段负责导航栏的active动态效果  lt（6）表示序号小于6的全部li
 $(document).ready(function () {
-    $('ul.nav:first>li').click(function (e) {
+    $('ul.nav:first>li').mouseover(function (e) {
     e.preventDefault();
     $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");
     $(this).css("background-color","rgb(13,129,189)");

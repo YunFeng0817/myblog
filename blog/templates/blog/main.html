@@ -1,45 +1,78 @@
 {% extends "blog/basic.html" %}
+
 {% block title %}{{ name }}的博客{% endblock %}
+
+{% block head %}
+    {% load static %}
+    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">
+{% endblock %}
+
+{% block login %}
+    <a href="#" class="dropdown-toggle"  data-toggle="modal" data-target="#myModal">登陆<span class="caret"></span></a>
+{% endblock %}
+
 {% block content %}
-    <div class=" left-block " style="width: 50%;">
-        <div class="jumbotron" style="background-image: url('/blog/static/blog/images/t.jpg'); background-repeat: no-repeat;background-size:  100% 100%;">
-            <p>推荐</p>
+    <div class="center-block" style="width: 50%">
+        <div class=" left-block "  style="width: 50%;">
+            <div class="jumbotron" id="bigArea">
+                <h3 class="words">生活不止眼前的苟且</h3>
+                <h3 class="words">还有诗和远方</h3>
+            </div>
+        </div>
+        <h3>小日记 <span class="label label-info">New</span></h3>
+        <div class=" left-block ">
+            <div class="list-group text-center">
+              <a href="#" class="list-group-item list-group-item-info">
+                <h4 class="list-group-item-heading">List group item heading</h4>
+                <p class="list-group-item-text">...</p>
+              </a>
+            </div>
+        </div>
+        <h3>收获  <span class="label label-primary">New</span></h3>
+        <div class=" left-block ">
+            <div class="list-group text-center">
+              <a href="#" class="list-group-item list-group-item-info">
+                <h4 class="list-group-item-heading">List group item heading</h4>
+                <p class="list-group-item-text">...</p>
+              </a>
+            </div>
+        </div>
+        <h3>旅游<span class="label label-success">New</span></h3>
+        <div class=" left-block ">
+            <div class="list-group text-center">
+              <a href="#" class="list-group-item list-group-item-info">
+                <h4 class="list-group-item-heading">List group item heading</h4>
+                <p class="list-group-item-text">...</p>
+              </a>
+            </div>
+        </div>
+        <h3>照片墙 <span class="label label-default">New</span></h3>
+        <div class=" left-block ">
+            <div class="list-group text-center">
+              <a href="#" class="list-group-item list-group-item-info">
+                <h4 class="list-group-item-heading">List group item heading</h4>
+                <p class="list-group-item-text">...</p>
+              </a>
+            </div>
         </div>
     </div>
-    <h3>小日记 <span class="label label-info">New</span></h3>
-    <div class=" left-block " style="width: 50%;">
-        <div class="list-group text-center">
-          <a href="#" class="list-group-item list-group-item-info">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text">...</p>
-          </a>
-        </div>
-    </div>
-    <h3>收获  <span class="label label-primary">New</span></h3>
-    <div class=" left-block " style="width: 50%;">
-        <div class="list-group text-center">
-          <a href="#" class="list-group-item list-group-item-info">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text">...</p>
-          </a>
-        </div>
-    </div>
-    <h3>旅游<span class="label label-success">New</span></h3>
-    <div class=" left-block " style="width: 50%;">
-        <div class="list-group text-center">
-          <a href="#" class="list-group-item list-group-item-info">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text">...</p>
-          </a>
-        </div>
-    </div>
-    <h3>照片墙 <span class="label label-default">New</span></h3>
-    <div class=" left-block " style="width: 50%;">
-        <div class="list-group text-center">
-          <a href="#" class="list-group-item list-group-item-info">
-            <h4 class="list-group-item-heading">List group item heading</h4>
-            <p class="list-group-item-text">...</p>
-          </a>
-        </div>
-    </div>
+{% endblock %}
+
+{% block insert-content %}
+    <form>
+    {% csrf_token %}
+      <div class="form-group">
+        <label for="exampleInputEmail1">博客账号</label>
+        <input type="text" class="form-control" required placeholder="账号">
+      </div>
+      <div class="form-group">
+        <label for="exampleInputPassword1">密码</label>
+        <input type="password" class="form-control" required id="exampleInputPassword1" placeholder="密码">
+      </div>
+        <br>
+      <div style="text-align: right;">
+        <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
+        <button type="submit"  class="btn btn-primary ">登录</button>
+      </div>
+    </form>
 {% endblock %}
