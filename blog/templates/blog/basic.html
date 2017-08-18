@@ -97,15 +97,13 @@
 <script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
 <script type="text/javascript">
     //这一段负责导航栏的active动态效果  lt（6）表示序号小于6的全部li
-/*$(document).ready(function () {
+$(document).ready(function () {
     $('ul.nav:first>li').click(function (e) {
     e.preventDefault();
-     $('ul.nav:first>li').removeClass('active');
-     $(this).addClass('active');
+    $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");
+    $(this).css("background-color","rgb(13,129,189)");
     })
-});*/
-x = $('ul.nav:first>li');
-x.addClass('actice');
+});
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>
 </html>
