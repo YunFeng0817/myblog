@@ -1,3 +1,16 @@
 {% extends "blog/basic.html" %}
 {% block title %}{{ name }}的博客{% endblock %}
-{% block content %}{{ greeting }}{% endblock %}
+{% block content %}
+    <div class=" left-block " style="width: 50%;">
+        <div class="list-group text-center">
+          <a href="#" class="list-group-item active">
+            <h4 class="list-group-item-heading">List group item heading</h4>
+            <p class="list-group-item-text">...</p>
+          </a>
+        <a href="#" class="list-group-item">
+            <h4 class="list-group-item-heading">List group item heading</h4>
+            <p class="list-group-item-text">...</p>
+        </a>
+        </div>
+    </div>
+{% endblock %}
