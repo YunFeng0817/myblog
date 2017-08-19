@@ -9,6 +9,19 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+<!--用于接收提示信息-->
+{% if messages %}
+<ul class="messages" hidden>
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -102,7 +115,18 @@ $(document).ready(function () {
     e.preventDefault();
     $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");
     $(this).css("background-color","rgb(13,129,189)");
-    })
+    });
+
+//用于提示弹框信息
+$(document).ready(function () {
+    var x= $('ul.messages>li').text();
+    if(x==""){
+
+    }
+    else{
+        alert(x);
+    }
+});
 });
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>

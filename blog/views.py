@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from django.template import RequestContext
+from django.contrib import messages
 from blog.models import *
 # Create your views here.
 
@@ -27,7 +27,10 @@ def loginAction(request):
                 name =user.get_short_name()
                 return render(request,'blog/main.html',{'name':name})
             else:
-                return render(request,'blog/main.html',{'error':'无效的账号'})
+                messages.warning(request,'用户无效')
+                return render(request,'blog/main.html',)
+        else:
+            messages.info(request, '密码错误')
     return render(request,'blog/main.html',{'error':'密码错误'})
 
 #负责登出的动作
