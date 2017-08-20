@@ -1,6 +1,14 @@
 {% extends "blog/basic.html" %}
 
+
+{% block head %}
+    {% load static %}
+    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">
+{% endblock %}
+
+
 {% block title %}
+<title>
     {% if name %}
     {{ name }}的博客
     {% endif %}
@@ -13,16 +21,13 @@
     {% else %}
         您是访客
     {% endif %}
+</title>
 {% endblock %}
 
-{% block head %}
-    {% load static %}
-    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">
-{% endblock %}
 
 {% block login %}
     {% if user.is_authenticated %}
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {% if user.username %}
                 {{ user.username }}
             {% else %}
@@ -108,7 +113,10 @@
                 $.ajax({url:'/',type:'post',data:{'blogID':blogID,'password':password},success:function (data,status) {
                     if(data.length>10)
                     {
-                        $('html').html(data);
+                        //$('html').html(data);       //刷新后字体会变小的bug
+                        //window.location.reload();   //可以解决bug，但觉得还不够好
+                        top.location.reload()       //可以解决bug，只刷新顶部，比较好
+                        //$('.username').load('/' ,' .username')
                     }
                     else
                     {
@@ -116,9 +124,6 @@
                     }
                 },async:false});
             });
-            $('#blogID').blur(function () {
-                $.ajax({url:'/',type:'post',data:{'blogID':blogID,'password':password}})
-            })
         });
     </script>
 {% endblock %}
