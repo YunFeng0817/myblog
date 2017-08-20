@@ -5,7 +5,11 @@
     {{ name }}的博客
     {% endif %}
     {% if user.is_authenticated %}
-        {{ user.first_name }}
+        {% if user.username %}
+            {{ user.username }}
+            {% else %}
+            {{ user.name }}
+        {% endif %}
     {% else %}
         您是访客
     {% endif %}
@@ -18,7 +22,14 @@
 
 {% block login %}
     {% if user.is_authenticated %}
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ user.first_name }} <span class="caret"></span></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {% if user.username %}
+                {{ user.username }}
+            {% else %}
+                {{ user.name }}
+            {% endif %}
+            <span class="caret"></span>
+        </a>
     {% else %}
         <a href="#" class="dropdown-toggle"  data-toggle="modal" data-target="#myModal">登录<span class="caret"></span></a>
     {% endif %}
