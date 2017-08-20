@@ -4,6 +4,6 @@ from blog.views import *
 
 urlpatterns=[
     url(r'^$',main,name='main'),
-    url(r'^login/$',loginAction,name='loginAction'),
+    #url(r'^login/$',loginAction,name='loginAction'),
     url(r'^logout/$',logoutAction,name='logoutAction')
 ]

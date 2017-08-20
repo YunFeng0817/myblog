@@ -5,7 +5,7 @@
     {{ name }}的博客
     {% endif %}
     {% if user.is_authenticated %}
-        {{ user.username }}
+        {{ user.first_name }}
     {% else %}
         您是访客
     {% endif %}
@@ -72,11 +72,11 @@
 {% endblock %}
 
 {% block insert-content %}
-    <form action="{% url "blog:loginAction" %}" method="post">
+    <form>
     {% csrf_token %}
       <div class="form-group">
         <label for="exampleInputEmail1">博客账号</label>
-        <input type="text" class="form-control" name="blogID" required placeholder="账号">
+        <input type="text" class="form-control" name="blogID" required placeholder="账号" id="blogID">
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">密码</label>
@@ -85,7 +85,33 @@
         <br>
       <div style="text-align: right;">
         <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
-        <button type="submit"  class="btn btn-primary ">登录</button>
+        <button type="submit"  class="btn btn-primary " id="submit">登录</button>
       </div>
     </form>
+    <script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
+        });
+        $(document).ready(function () {
+
+        {#    $('ul.list-inline').click(function () {#}
+        {#        $.post('/', {'blogID':'294889365','password':'abcd159753'},function(data,status) {#}
+        {#            alert(status);#}
+        {#            $('body').html();#}
+        {#        });#}
+        {#    })#}
+            $('#submit').click(function (){
+                blogID = $('#blogID').val();
+                password = $('#exampleInputPassword1').val();
+                alert(blogID+'    '+password);
+                $.ajax({url:'/',type:'post',data:{'blogID':blogID,'password':password},success:function (data,status) {
+                    //alert(data);
+                    $('body').html(data);
+
+                }})
+             });
+
+        });
+    </script>
 {% endblock %}
