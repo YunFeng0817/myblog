@@ -9,6 +9,19 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+<!--用于接收提示信息-->
+{% if messages %}
+<ul class="messages" hidden>
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -81,7 +94,7 @@
 <!--页脚部分-->
 <footer class="text-center " style="line-height: 20px;color: #9d9d9d ">
     <hr>
-    <ul class="list-inline">
+    <ul class="list-inline" >
         <li>感谢开源项目：<a href="http://www.djangoproject.com/">Django</a></li>
         <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
     </ul>
@@ -102,8 +115,35 @@ $(document).ready(function () {
     e.preventDefault();
     $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");
     $(this).css("background-color","rgb(13,129,189)");
-    })
+    });
+
+//用于提示弹框信息
+$(document).ready(function () {
+    var x= $('ul.messages>li').text();
+    if(x==""){
+
+    }
+    else{
+        alert(x);
+    }
 });
+});
+//这个csrf认证的必须放在basic.html中，放在main.html中则会post请求被拒
+$.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
+{#        $(document).ready(function () {#}
+{#        //用这种直接pos可以快速便捷地使用ajax#}
+{#            $('ul.list-inline').click(function () {#}
+{#                $.post('/', {'blogID':'294889365','password':'abcd159753'},function(data,status) {#}
+{#                    alert(status);#}
+{#                    $('body').html();#}
+{#                });#}
+{#            })#}
+{#            $('ul.list-inline').click(function (){#}
+{#            $.ajax({url:'/',type:'post',data:{'blogID':'294889365','password':'abcd159753'},success:function (data,status) {#}
+{#                alert(data);#}
+{#                $('body').html(data);#}
+{#            }})#}
+{#             });#}
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>
 </html>

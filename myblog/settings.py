@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog'
+    'users', #此处有坑
+    #django-users2-0.2.1的app
+    'blog',
 ]
+
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+#使用django-users2-0.2.1替换系统原来的User模版
 ROOT_URLCONF = 'myblog.urls'
 
 TEMPLATES = [
@@ -120,3 +125,35 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#此段代码负责设置发送邮件认证的相关设置
+USERS_REGISTRATION_OPEN = True
+
+USERS_VERIFY_EMAIL = True
+
+USERS_AUTO_LOGIN_ON_ACTIVATION = True
+
+USERS_EMAIL_CONFIRMATION_TIMEOUT_DAYS = 3
+
+# Specifies minimum length for passwords:
+USERS_PASSWORD_MIN_LENGTH = 5
+
+# Specifies maximum length for passwords:
+USERS_PASSWORD_MAX_LENGTH = None
+
+# the complexity validator, checks the password strength
+USERS_CHECK_PASSWORD_COMPLEXITY = True
+
+USERS_SPAM_PROTECTION = False  # important!
+
+#  ---------------------------------------------------------
+#  Email
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_USE_TLS = False
+EMAIL_HOST = 'f18846188605@gmail.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'f18846188605@gmail.com'
+EMAIL_HOST_PASSWORD = 'fy123456'
+DEFAULT_FROM_EMAIL = 'f18846188605@gmail.com'
