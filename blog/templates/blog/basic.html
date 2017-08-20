@@ -128,11 +128,10 @@ $(document).ready(function () {
     }
 });
 });
-$.ajaxSetup({
-            data: {csrfmiddlewaretoken: '{{ csrf_token }}' }
-        });
-        $(document).ready(function () {
-        //用这种直接pos可以快速便捷地使用ajax
+//这个csrf认证的必须放在basic.html中，放在main.html中则会post请求被拒
+$.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
+{#        $(document).ready(function () {#}
+{#        //用这种直接pos可以快速便捷地使用ajax#}
 {#            $('ul.list-inline').click(function () {#}
 {#                $.post('/', {'blogID':'294889365','password':'abcd159753'},function(data,status) {#}
 {#                    alert(status);#}
@@ -142,20 +141,9 @@ $.ajaxSetup({
 {#            $('ul.list-inline').click(function (){#}
 {#            $.ajax({url:'/',type:'post',data:{'blogID':'294889365','password':'abcd159753'},success:function (data,status) {#}
 {#                alert(data);#}
-{##}
+{#                $('body').html(data);#}
 {#            }})#}
 {#             });#}
-            $('#submit').click(function (){
-                blogID = $('#blogID').val();
-                password = $('#exampleInputPassword1').val();
-                alert(blogID+'    '+password);
-                $.ajax({url:'/',type:'post',data:{'blogID':blogID,'password':password},success:function (data,status) {
-                    alert(data);
-                    $('body').html(data);
-                }})
-             });
-
-        });
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>
 </html>
