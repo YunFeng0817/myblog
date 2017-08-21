@@ -36,11 +36,11 @@
         <a class="navbar-brand" href=""></a>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <ul class="nav navbar-nav " data-toggle="tab">
+            <ul class="nav navbar-nav navbar-left" >
                 <li><a href="">主页<span class="sr-only">(current)</span></a></li>
-                <li><a href=''>小日记</a></li>
+                <li><a href="/diary/">小日记</a></li>
                 <li><a href="#">收获</a></li>
                 <li><a href="#">旅游</a></li>
                 <li><a href="#">照片墙</a></li>
@@ -51,7 +51,7 @@
                 <li class="dropdown">
                   {% block login %}<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">登陆 <span class="caret"></span></a>{% endblock %}
                   <ul class="dropdown-menu">
-                    <li><a href="#">设置</a></li>
+                    <li><a href="">设置</a></li>
                     <li><a href="#">修改密码</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href="/logout/">退出登录</a></li>
@@ -109,13 +109,26 @@
 
 <script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
 <script type="text/javascript">
-    //这一段负责导航栏的active动态效果  lt（6）表示序号小于6的全部li
+    //这一段负责导航栏的active动态效果  此段不会无效
+{#$(document).ready(function () {#}
+{#    $('ul.nav:first>li').mouseover(function (e) {#}
+{#    e.preventDefault();#}
+{#    $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");#}
+{#    $(this).css("background-color","rgb(13,129,189)");#}
+{#    });#}
+
+
+
+ //这一段负责导航栏的active动态效果
+//此处又是一个有史以来遇到的最大的坑
+//在导航栏出加了个 data-toggle="collapse"然后 这段jquery神秘的失效  以此警示后人
+//！！！
 $(document).ready(function () {
-    $('ul.nav:first>li').mouseover(function (e) {
-    e.preventDefault();
-    $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");
-    $(this).css("background-color","rgb(13,129,189)");
-    });
+$('ul.nav:first>li').mouseover(function (e) {
+e.preventDefault();
+$('ul.nav:first>li').removeClass('active');
+$(this).addClass('active');
+});
 
 //用于提示弹框信息
 $(document).ready(function () {

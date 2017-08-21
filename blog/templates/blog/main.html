@@ -8,14 +8,11 @@
 
 
 {% block title %}
-    {% if name %}
-    {{ name }}的博客
-    {% endif %}
     {% if user.is_authenticated %}
         {% if user.username %}
-            {{ user.username }}
+            {{ user.username }}的个人博客
             {% else %}
-            {{ user.name }}
+            {{ user.name }}的个人博客
         {% endif %}
     {% else %}
         您是访客
@@ -27,9 +24,9 @@
     {% if user.is_authenticated %}
         <a href="#"  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             {% if user.username %}
-                {{ user.username }}
+                您好！  {{ user.username }}
             {% else %}
-                {{ user.name }}
+                您好！  {{ user.name }}
             {% endif %}
             <span class="caret"></span>
         </a>
