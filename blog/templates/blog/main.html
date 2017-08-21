@@ -8,15 +8,7 @@
 
 
 {% block title %}
-    {% if user.is_authenticated %}
-        {% if user.username %}
-            {{ user.username }}的个人博客
-            {% else %}
-            {{ user.name }}的个人博客
-        {% endif %}
-    {% else %}
-        您是访客
-    {% endif %}
+
 {% endblock %}
 
 

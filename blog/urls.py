@@ -8,5 +8,7 @@ urlpatterns=[
     #url(r'^login/$',loginAction,name='loginAction'),
     #此url是曾用的，由于使用了ajax表单认证，此url已于上上个url合并
     #url(r'^logout/$',logoutAction,name='logoutAction'),
-    url(r'^diary/$',diary,name='diary'),
+    url(r'^diary/$',diaries,name='diaries'),
+    url(r'^diary/1/$',diary,name='diary'),
+    url(r'^photo/$',photos,name='photos'),
 ]
