@@ -1,0 +1,22 @@
+{% extends "blog/diary.html" %}
+
+
+{% block diaries %}
+    <div class="center-block" style="width: 50%">
+{#        {% for diary in diaries %}#}
+            <ul class="list-inline">
+                <li><h3> 标题1 </h3></li>
+                <li><h6><span class="label label-info">标签</span></h6></li>
+            </ul>
+            <div class=" left-block ">
+                <div class="list-group text-center">
+                  <a href="#" class="list-group-item list-group-item-info">
+                    <h4 class="list-group-item-heading">这里是简介</h4>
+                    <div class="list-group-item-text">
+                    </div>
+                  </a>
+                </div>
+            </div>
+{#        {% endfor %}#}
+    </div>
+{% endblock %}
