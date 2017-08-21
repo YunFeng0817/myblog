@@ -36,7 +36,7 @@ def main(request):
 #负责小日记的链接页
 def diary(request):
     loginout(request)
-    return render(request,'blog/diary_main.html')
+    return render(request, 'blog/essay_list.html')
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):
