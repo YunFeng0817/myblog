@@ -10,5 +10,10 @@ urlpatterns=[
     #url(r'^logout/$',logoutAction,name='logoutAction'),
     url(r'^diary/$',diaries,name='diaries'),
     url(r'^diary/1/$',diary,name='diary'),
+    url(r'^tech/$',techs,name='techs'),
+    url(r'^tech/1/$', tech, name='tech'),
+    url(r'^trips/$', trips, name='trips'),
+    url(r'^trip/1/$', techs, name='trip'),
     url(r'^photo/$',photos,name='photos'),
+
 ]

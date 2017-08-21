@@ -38,13 +38,39 @@ def diaries(request):
     loginout(request)
     return render(request, 'blog/essay_list.html')
 
+
+#负责小日记具体的某一篇日记的页面
 def diary(request):
     loginout(request)
     return render(request, 'blog/essay.html')
 
+
+#负责显示照片的页面
 def photos(request):
     loginout(request)
     return render(request,'blog/photos.html')
+
+#负责收获的链接页
+def techs(request):
+    loginout(request)
+    return render(request,'blog/essay_list.html')
+
+
+#负责具体某一篇的收获内容博客
+def tech(request):
+    loginout(request)
+    return render(request,'blog/essay.html')
+
+
+#负责旅游的日记链接
+def trips(request):
+    loginout(request)
+    return render(request,'blog/essay_list.html')
+
+#负责具体的某一篇旅游记录
+def trip(request):
+    loginout(request)
+    return render(request,'blog/essay.html')
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):
