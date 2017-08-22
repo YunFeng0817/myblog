@@ -1,3 +1,4 @@
+#coding=UTF-8
 from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
@@ -29,48 +30,80 @@ def loginout(request):
                 logout(request)
 
 #负责主页面的界面
+#此时也有坑  函数loginout()结束后还会继续执行之后的return render() ，导致页面密码输入错误不会得到错误提醒
 def main(request):
-    loginout(request)
-    return render(request, 'blog/main.html')
+    Response = loginout(request)
+    if Response==None:
+        return render(request, 'blog/main.html')
+    else:
+        return Response
 
 #负责小日记的链接页
 def diaries(request):
-    loginout(request)
-    return render(request, 'blog/essay_list.html')
+    Response = loginout(request)
+    context = {'contentType':'小日记'}
+    if Response == None:
+        return render(request, 'blog/essay_list.html',context)
+    else:
+        return Response
 
 
 #负责小日记具体的某一篇日记的页面
 def diary(request):
-    loginout(request)
-    return render(request, 'blog/essay.html')
+    Response = loginout(request)
+    context = {'contentType': '小日记', 'essayTitle': '忙碌的一天','contentURL':'diary'}
+    if Response == None:
+        return render(request, 'blog/essay.html', context)
+    else:
+        return Response
 
 
 #负责显示照片的页面
 def photos(request):
-    loginout(request)
-    return render(request,'blog/photos.html')
+    Response = loginout(request)
+    context = {'contentType': '照片墙'}
+    if Response == None:
+        return render(request, 'blog/photos.html', context)
+    else:
+        return Response
 
 #负责收获的链接页
 def techs(request):
-    loginout(request)
-    return render(request,'blog/essay_list.html')
+    Response = loginout(request)
+    context = {'contentType': '收获'}
+    if Response == None:
+        return render(request, 'blog/essay_list.html', context)
+    else:
+        return Response
 
 
 #负责具体某一篇的收获内容博客
 def tech(request):
-    loginout(request)
-    return render(request,'blog/essay.html')
+    Response = loginout(request)
+    context = {'contentType': '收获','contentURL':'tech', 'essayTitle': 'django框架'}
+    if Response == None:
+        return render(request, 'blog/essay.html', context)
+    else:
+        return Response
 
 
 #负责旅游的日记链接
 def trips(request):
-    loginout(request)
-    return render(request,'blog/essay_list.html')
+    Response = loginout(request)
+    context =  {'contentType': '旅游'}
+    if Response == None:
+        return render(request, 'blog/essay_list.html',context)
+    else:
+        return Response
 
 #负责具体的某一篇旅游记录
 def trip(request):
-    loginout(request)
-    return render(request,'blog/essay.html')
+    Response = loginout(request)
+    context = {'contentType': '旅游','contentURL':'trip','essayTitle': '天津'}
+    if Response == None:
+        return render(request, 'blog/essay.html', context)
+    else:
+        return Response
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):

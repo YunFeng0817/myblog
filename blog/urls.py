@@ -1,3 +1,4 @@
+#coding=UTF-8
 from django.contrib import admin
 from django.conf.urls import url
 from blog.views import *
@@ -12,8 +13,8 @@ urlpatterns=[
     url(r'^diary/1/$',diary,name='diary'),
     url(r'^tech/$',techs,name='techs'),
     url(r'^tech/1/$', tech, name='tech'),
-    url(r'^trips/$', trips, name='trips'),
-    url(r'^trip/1/$', techs, name='trip'),
+    url(r'^trip/$', trips, name='trips'),
+    url(r'^trip/1/$', trip, name='trip'),
     url(r'^photo/$',photos,name='photos'),
 
 ]
