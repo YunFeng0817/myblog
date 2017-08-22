@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib import messages
-from blog.models import *
+from blog import models
 # Create your views here.
 
 #负责页面的登录与退出动作
@@ -43,7 +43,12 @@ def diaries(request):
     Response = loginout(request)
     context = {'contentType':'小日记'}
     if Response == None:
-        return render(request, 'blog/essay_list.html',context)
+        #获取当前登录的用户！！！
+        current_user = request.user
+        if str(current_user) != 'AnonymousUser':
+            essay = models.diary.objects.get(author=current_user)
+            context['diary']=essay.title
+        return render(request, 'blog/essay_list.html', context)
     else:
         return Response
 
