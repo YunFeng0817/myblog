@@ -15,6 +15,9 @@
                 {{ contentType }}
             {% endif %}
         </h4></a></li>
+        {% if user.is_authenticated %}
+            <li style="position: absolute;right: 2%;"><button type="button" class="btn btn-info"><h5 style="margin: 0;"><span class="glyphicon glyphicon-plus"></span>       增加</h5></button></li>
+        {% endif %}
     </ul>
     </div>
 {% block diaries %}
