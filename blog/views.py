@@ -46,18 +46,23 @@ def diaries(request):
         #获取当前登录的用户！！！
         current_user = request.user
         if str(current_user) != 'AnonymousUser':
-            essay = models.diary.objects.get(author=current_user)
-            context['diary']=essay.title
+            essay =models.diary.objects.filter(author=current_user)
+            context['diaries']=essay
         return render(request, 'blog/essay_list.html', context)
     else:
         return Response
 
 
 #负责小日记具体的某一篇日记的页面
-def diary(request):
+def diary(request,specificTitle):
     Response = loginout(request)
-    context = {'contentType': '小日记', 'essayTitle': '忙碌的一天','contentURL':'diary'}
+    context = {'contentType': '小日记','contentURL':'diary'}
     if Response == None:
+        current_user = request.user
+        if str(current_user) != 'AnonymousUser':
+            essay = models.diary.objects.filter(author=current_user)
+            essay = essay.filter(title=specificTitle)
+            context['diary'] = essay
         return render(request, 'blog/essay.html', context)
     else:
         return Response

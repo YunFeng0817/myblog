@@ -3,20 +3,28 @@
 
 {% block diaries %}
     <div class="center-block" style="width: 50%">
-{#        {% for log in a %}#}
+        {% for diary in diaries %}
             <ul class="list-inline">
                 <li><h3> {{ diary.title }} </h3></li>
-                <li><h6><span class="label label-info">标签</span></h6></li>
+                {% if diary.label1  %}
+                    <li><h4><span class="label label-info">{{ diary.label1 }}</span></h4></li>
+                {% endif %}
+                {% if diary.label2  %}
+                    <li><h4><span class="label label-info">{{ diary.label2 }}</span></h4></li>
+                {% endif %}
+                {% if diary.label3  %}
+                    <li><h4><span class="label label-info">{{ diary.label3 }}</span></h4></li>
+                {% endif %}
             </ul>
             <div class=" left-block ">
                 <div class="list-group text-center">
-                  <a href="1/" class="list-group-item list-group-item-info">
+                  <a href="{{ diary.author_id }}/" class="list-group-item list-group-item-info">
                     <h4 class="list-group-item-heading">{{ diary.introduction }}</h4>
                     <div class="list-group-item-text">
                     </div>
                   </a>
                 </div>
             </div>
-{#        {% endfor %}#}
+        {% endfor %}
     </div>
 {% endblock %}
