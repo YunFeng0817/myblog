@@ -4,24 +4,31 @@
 
 {#这里是具体文章的区域#}
 {% block diaries %}
-    <div class="center-block" style="width: 70%;">
+    <div class="center-block" style="width: 75%;">
         <div class="panel panel-info">
           <div class="panel-heading">
             <ul class="list-inline">
                 <li><h3> {{ diary.title }} </h3></li>
-                <li><h4><span class="label label-info">标签</span></h4></li>
+                {% if diary.label1  %}
+                    <li><h4><span class="label label-primary">{{ diary.label1 }}</span></h4></li>
+                {% endif %}
+                {% if diary.label2  %}
+                    <li><h4><span class="label label-success">{{ diary.label2 }}</span></h4></li>
+                {% endif %}
+                {% if diary.label3  %}
+                    <li><h4><span class="label label-info">{{ diary.label3 }}</span></h4></li>
+                {% endif %}
             </ul>
           </div>
           <div class="panel-body">
             {{ diary.words }}
-          </div>
           <div class="panel-footer">
             {% if user.username %}
                 {{ user.username }}
                 {% else %}
                 {{ user.name }}
-                写作于：{{ diary.writeDate }}
             {% endif %}
+          写作于：{{ diary.writeDate }}
           </div>
         </div>
     </div>

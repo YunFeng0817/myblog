@@ -61,7 +61,7 @@ def diary(request,diaryID):
         current_user = request.user
         if str(current_user) != 'AnonymousUser':
             essay = models.diary.objects.filter(author=current_user)
-            essay = essay.filter(title=diaryID)
+            essay = essay.get(id=diaryID)
             context['diary'] = essay
         return render(request, 'blog/essay.html', context)
     else:
