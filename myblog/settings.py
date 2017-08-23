@@ -126,8 +126,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = ''
-MEDIA_URL = '/files/'
+MEDIA_ROOT = 'E:\web_project\myblog/blog/templates/'
+MEDIA_URL = ''
 
 #此段代码负责设置发送邮件认证的相关设置
 USERS_REGISTRATION_OPEN = True

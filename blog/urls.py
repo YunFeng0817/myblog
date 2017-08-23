@@ -12,9 +12,9 @@ urlpatterns=[
     url(r'^diary/$',diaries,name='diaries'),
     url(r'^diary/(\d)/$',diary,name='diary'),
     url(r'^tech/$',techs,name='techs'),
-    url(r'^tech/1/$', tech, name='tech'),
+    url(r'^tech/(\d)/$', tech, name='tech'),
     url(r'^trip/$', trips, name='trips'),
-    url(r'^trip/1/$', trip, name='trip'),
+    url(r'^trip/(\d)/$', trip, name='trip'),
     url(r'^photo/$',photos,name='photos'),
 
 ]

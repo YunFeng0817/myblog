@@ -3,23 +3,23 @@
 
 {% block diaries %}
     <div class="center-block" style="width: 50%">
-        {% for diary in diaries %}
+        {% for essay in essays %}
             <ul class="list-inline">
-                <li><h3> {{ diary.title }} </h3></li>
-                {% if diary.label1  %}
-                    <li><h4><span class="label label-primary">{{ diary.label1 }}</span></h4></li>
+                <li><h3> {{ essay.title }} </h3></li>
+                {% if essay.label1  %}
+                    <li><h4><span class="label label-primary">{{ essay.label1 }}</span></h4></li>
                 {% endif %}
-                {% if diary.label2  %}
-                    <li><h4><span class="label label-success">{{ diary.label2 }}</span></h4></li>
+                {% if essay.label2  %}
+                    <li><h4><span class="label label-success">{{ essay.label2 }}</span></h4></li>
                 {% endif %}
-                {% if diary.label3  %}
-                    <li><h4><span class="label label-info">{{ diary.label3 }}</span></h4></li>
+                {% if essay.label3  %}
+                    <li><h4><span class="label label-info">{{ essay.label3 }}</span></h4></li>
                 {% endif %}
             </ul>
             <div class=" left-block ">
                 <div class="list-group text-center">
-                  <a href="{{ diary.id }}/" class="list-group-item list-group-item-info">
-                    <h4 class="list-group-item-heading">{{ diary.introduction }}</h4>
+                  <a href="{{ essay.id }}/" class="list-group-item list-group-item-info">
+                    <h4 class="list-group-item-heading">{{ essay.introduction }}</h4>
                     <div class="list-group-item-text">
                     </div>
                   </a>

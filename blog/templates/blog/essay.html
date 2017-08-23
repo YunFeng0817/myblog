@@ -8,27 +8,34 @@
         <div class="panel panel-info">
           <div class="panel-heading">
             <ul class="list-inline">
-                <li><h3> {{ diary.title }} </h3></li>
-                {% if diary.label1  %}
-                    <li><h4><span class="label label-primary">{{ diary.label1 }}</span></h4></li>
+                <li><h3> {{ essay.title }} </h3></li>
+                {% if essay.label1  %}
+                    <li><h4><span class="label label-primary">{{ essay.label1 }}</span></h4></li>
                 {% endif %}
-                {% if diary.label2  %}
-                    <li><h4><span class="label label-success">{{ diary.label2 }}</span></h4></li>
+                {% if essay.label2  %}
+                    <li><h4><span class="label label-success">{{ essay.label2 }}</span></h4></li>
                 {% endif %}
-                {% if diary.label3  %}
-                    <li><h4><span class="label label-info">{{ diary.label3 }}</span></h4></li>
+                {% if essay.label3  %}
+                    <li><h4><span class="label label-info">{{ essay.label3 }}</span></h4></li>
                 {% endif %}
             </ul>
           </div>
           <div class="panel-body">
-            {{ diary.words }}
+          {% load static %}
+{#          <img class="img-responsive" src="{% static 'blog/images/program.jpg' %}">#}
+            <blockquote>
+                {{ essay.words }}
+            </blockquote>
+          {% include essay.file %}
+{#          用来将别的网页嵌入到本网页中的语法#}
+{#          {% include "blog/main.html" %}#}
           <div class="panel-footer">
             {% if user.username %}
                 {{ user.username }}
                 {% else %}
                 {{ user.name }}
             {% endif %}
-          写作于：{{ diary.writeDate }}
+          写作于：{{ essay.writeDate }}
           </div>
         </div>
     </div>

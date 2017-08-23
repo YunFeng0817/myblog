@@ -47,7 +47,7 @@ def diaries(request):
         current_user = request.user
         if str(current_user) != 'AnonymousUser':
             essay =models.diary.objects.filter(author=current_user)
-            context['diaries']=essay
+            context['essays']=essay
         return render(request, 'blog/essay_list.html', context)
     else:
         return Response
@@ -62,7 +62,7 @@ def diary(request,diaryID):
         if str(current_user) != 'AnonymousUser':
             essay = models.diary.objects.filter(author=current_user)
             essay = essay.get(id=diaryID)
-            context['diary'] = essay
+            context['essay'] = essay
         return render(request, 'blog/essay.html', context)
     else:
         return Response
@@ -82,16 +82,25 @@ def techs(request):
     Response = loginout(request)
     context = {'contentType': '收获'}
     if Response == None:
+        current_user = request.user
+        if str(current_user) != 'AnonymousUser':
+            techs = models.tech.objects.filter(author=current_user)
+            context['essays'] = techs
         return render(request, 'blog/essay_list.html', context)
     else:
         return Response
 
 
 #负责具体某一篇的收获内容博客
-def tech(request):
+def tech(request,techID):
     Response = loginout(request)
     context = {'contentType': '收获','contentURL':'tech', 'essayTitle': 'django框架'}
     if Response == None:
+        current_user = request.user
+        if str(current_user) != 'AnonymousUser':
+            techs = models.tech.objects.filter(author=current_user)
+            tech = techs.get(id=techID)
+            context['essay'] = tech
         return render(request, 'blog/essay.html', context)
     else:
         return Response
@@ -102,15 +111,25 @@ def trips(request):
     Response = loginout(request)
     context =  {'contentType': '旅游'}
     if Response == None:
+        if Response == None:
+            current_user = request.user
+            if str(current_user) != 'AnonymousUser':
+                trips = models.trip.objects.filter(author=current_user)
+                context['essays'] = trips
         return render(request, 'blog/essay_list.html',context)
     else:
         return Response
 
 #负责具体的某一篇旅游记录
-def trip(request):
+def trip(request,tripID):
     Response = loginout(request)
     context = {'contentType': '旅游','contentURL':'trip','essayTitle': '天津'}
     if Response == None:
+        current_user = request.user
+        if str(current_user) != 'AnonymousUser':
+            trips = models.trip.objects.filter(author=current_user)
+            trip = trips.get(id=tripID)
+            context['essay'] = trip
         return render(request, 'blog/essay.html', context)
     else:
         return Response
