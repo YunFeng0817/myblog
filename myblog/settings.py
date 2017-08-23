@@ -127,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = ''
-MEDIA_URL = '/text/'
+MEDIA_URL = '/files/'
 
 #此段代码负责设置发送邮件认证的相关设置
 USERS_REGISTRATION_OPEN = True

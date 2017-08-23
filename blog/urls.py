@@ -10,7 +10,7 @@ urlpatterns=[
     #此url是曾用的，由于使用了ajax表单认证，此url已于上上个url合并
     #url(r'^logout/$',logoutAction,name='logoutAction'),
     url(r'^diary/$',diaries,name='diaries'),
-    url(r'^diary/(\s)/$',diary,name='diary'),
+    url(r'^diary/(\d)/$',diary,name='diary'),
     url(r'^tech/$',techs,name='techs'),
     url(r'^tech/1/$', tech, name='tech'),
     url(r'^trip/$', trips, name='trips'),

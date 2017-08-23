@@ -20,8 +20,11 @@ class storge(models.Model):
     def was_published_recently(self):
         return self.writeDate >= timezone.now() - datetime.timedelta(days=1)
 
-    def __str__(self):
+    def get(self):
         return [self.title,self.introduction,self.author,self.writeDate,self.modifyDate,self.words,self.words]
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         abstract = True

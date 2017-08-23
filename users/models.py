@@ -23,7 +23,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
         _('active'), default=USERS_AUTO_ACTIVATE,
         help_text=_('Designates whether this user should be treated as '
                     'active. Unselect this instead of deleting accounts.'))
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     user_type = models.ForeignKey(ContentType, null=True, editable=False)
 
     objects = UserInheritanceManager()

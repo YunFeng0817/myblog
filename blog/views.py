@@ -54,14 +54,14 @@ def diaries(request):
 
 
 #负责小日记具体的某一篇日记的页面
-def diary(request,specificTitle):
+def diary(request,diaryID):
     Response = loginout(request)
     context = {'contentType': '小日记','contentURL':'diary'}
     if Response == None:
         current_user = request.user
         if str(current_user) != 'AnonymousUser':
             essay = models.diary.objects.filter(author=current_user)
-            essay = essay.filter(title=specificTitle)
+            essay = essay.filter(title=diaryID)
             context['diary'] = essay
         return render(request, 'blog/essay.html', context)
     else:
