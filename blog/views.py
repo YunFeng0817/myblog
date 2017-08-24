@@ -3,7 +3,9 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from users.models import User
+from django.utils.timezone import datetime
 from django.contrib import messages
+import datetime
 from blog import models
 # Create your views here.
 
@@ -34,8 +36,14 @@ def loginout(request):
 #此时也有坑  函数loginout()结束后还会继续执行之后的return render() ，导致页面密码输入错误不会得到错误提醒
 def main(request,userName):
     Response = loginout(request)
+    context = {'id': userName}
     if Response==None:
-        return render(request, 'blog/main.html',{'id':userName})
+        current_user = User.objects.filter(name=userName)
+        time_point = datetime.datetime.now() - datetime.timedelta(days=2)
+        essay = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)
+        print(essay)
+        context['essays'] = essay
+        return render(request, 'blog/main.html',context)
     else:
         return Response
 

@@ -27,6 +27,7 @@ class storge(models.Model):
         return self.title
 
     class Meta:
+        ordering = ["-writeDate"]
         abstract = True
 
 
