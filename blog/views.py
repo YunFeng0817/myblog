@@ -39,10 +39,20 @@ def main(request,userName):
     context = {'id': userName}
     if Response==None:
         current_user = User.objects.filter(name=userName)
-        time_point = datetime.datetime.now() - datetime.timedelta(days=2)
-        essay = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)
-        print(essay)
-        context['essays'] = essay
+        time_point = datetime.datetime.now() - datetime.timedelta(days=7)
+        diaries = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)   # writeDate__gte表示筛选大于该时间的对象
+        print(diaries)
+        if not diaries:  #判断查询集是否为空的用法
+            diaries = models.diary.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+        context['diaries'] = diaries
+        techs = models.tech.objects.filter(author=current_user,writeDate__gte=time_point)
+        if not techs:
+            techs = models.tech.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+        context['techs'] = techs
+        trips = models.trip.objects.filter(author=current_user,writeDate__gte=time_point)
+        if not trips:
+            trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+        context['trips'] = trips
         return render(request, 'blog/main.html',context)
     else:
         return Response
