@@ -22,6 +22,9 @@
                     {{ essay.words }}
                 {% endif %}
             </blockquote>
+          {% for image in essay.images.all %}
+              <img class="img-responsive" src="{% static image %}">
+          {% endfor %}
           {% for file in essay.files.all %}
               {% include file %}
           {% endfor %}

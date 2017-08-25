@@ -38,7 +38,7 @@ class label(models.Model):
 #绑定在文章和照片墙上的图片
 class image(models.Model):
     introduction = models.CharField(max_length=200)
-    img = models.ImageField(upload_to='static/blog/')
+    img = models.ImageField(upload_to='blog/images/')
     addDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
