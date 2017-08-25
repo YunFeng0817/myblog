@@ -9,24 +9,23 @@
           <div class="panel-heading">
             <ul class="list-inline">
                 <li><h3> {{ essay.title }} </h3></li>
-                {% if essay.label1  %}
-                    <li><h4><span class="label label-primary">{{ essay.label1 }}</span></h4></li>
-                {% endif %}
-                {% if essay.label2  %}
-                    <li><h4><span class="label label-success">{{ essay.label2 }}</span></h4></li>
-                {% endif %}
-                {% if essay.label3  %}
-                    <li><h4><span class="label label-info">{{ essay.label3 }}</span></h4></li>
-                {% endif %}
+                {% for label in essay.labels.all %}
+                    <li><h4><span class="label label-default">{{ label }}</span></h4></li>
+                {% endfor %}
             </ul>
           </div>
           <div class="panel-body">
           {% load static %}
 {#          <img class="img-responsive" src="{% static 'blog/images/program.jpg' %}">#}
             <blockquote>
-                {{ essay.words }}
+                {% if essay.words %}
+                    {{ essay.words }}
+                {% endif %}
             </blockquote>
-          {% include essay.file %}
+{#          {% for file in essay.files.all %}#}
+{#              {% include essay.files.name %}#}
+{#          {% endfor %}#}
+{#          {% include essay.file %}#}
 {#          用来将别的网页嵌入到本网页中的语法#}
 {#          {% include "blog/main.html" %}#}
           <div class="panel-footer">

@@ -10,7 +10,7 @@ import datetime
 
 #绑定在文章的文件
 class file(models.Model):
-    file = models.FileField(upload_to='templates/blog')
+    file = models.FileField(upload_to='essays/')
     addDate = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -44,10 +44,14 @@ class image(models.Model):
 
 #绑定在文章后面的评论
 class comment(models.Model):
-    author = models.ForeignKey(User,primary_key=False,null=True)
+    author = models.ForeignKey(User,primary_key=False,blank=True)
     words = models.CharField(max_length=200)
     addDate = models.DateTimeField(auto_now_add=True)
-    support_num = models.PositiveIntegerField()
+    support_num = models.PositiveIntegerField(default=0)
+
+    def __unicode__(self):
+        return self.words
+
     class Meta:
         ordering = ["-addDate"]
 
@@ -60,9 +64,9 @@ class storge(models.Model):
     modifyDate = models.DateTimeField(auto_now=True)   #修改日期
     labels = models.ManyToManyField(label,null=True,blank=True)
     words = models.TextField(null=True,blank=True)
-    images = models.ManyToManyField(image,null=True,blank=True)
-    files = models.ManyToManyField(file,null=True,blank=True)
-    comments = models.ManyToManyField(comment,null=True,blank=True)
+    images = models.ManyToManyField(image,blank=True)
+    files = models.ManyToManyField(file,blank=True)
+    comments = models.ManyToManyField(comment,blank=True)
     #存放文件路径
 
     def get(self):

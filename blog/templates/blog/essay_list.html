@@ -8,15 +8,9 @@
                 <li>
                     <ul class="list-inline">
                         <li><h1 style="margin: 0"> {{ essay.title }} </h1></li>
-                        {% if essay.label1  %}
-                            <li><h4 style="margin: 0"><span class="label label-primary">{{ essay.label1 }}</span></h4></li>
-                        {% endif %}
-                        {% if essay.label2  %}
-                            <li><h4 style="margin: 0"><span class="label label-success">{{ essay.label2 }}</span></h4></li>
-                        {% endif %}
-                        {% if essay.label3  %}
-                            <li><h4 style="margin: 0"><span class="label label-info">{{ essay.label3 }}</span></h4></li>
-                        {% endif %}
+                        {% for label in essay.labels.all %}
+                            <li><h4><span class="label label-default">{{ label }}</span></h4></li>
+                        {% endfor %}
                     </ul>
                 </li>
                 {% if user.name == id %}

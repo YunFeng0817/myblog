@@ -41,7 +41,6 @@ def main(request,userName):
         current_user = User.objects.filter(name=userName)
         time_point = datetime.datetime.now() - datetime.timedelta(days=7)
         diaries = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)   # writeDate__gte表示筛选大于该时间的对象
-        print(diaries)
         if not diaries:  #判断查询集是否为空的用法
             diaries = models.diary.objects.filter(author=current_user).order_by('-writeDate')[0:1]
         context['diaries'] = diaries
@@ -89,6 +88,7 @@ def diary(request,userName,diaryID):
         essay = models.diary.objects.filter(author=current_user)
         essay = essay.get(id=diaryID)
         context['essay'] = essay
+        print(essay.comments)
         return render(request, 'blog/essay.html', context)
     else:
         return Response

@@ -15,7 +15,7 @@ from django.utils import timezone
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+ESSAYS_DIR = os.path.join(BASE_DIR,'blog/essays')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -62,7 +62,7 @@ ROOT_URLCONF = 'myblog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ESSAYS_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -109,11 +109,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/1.11/topics/i18n/
+# https://docs.djangoproject.com/en/1.11/top ics/i18n/
 
 LANGUAGE_CODE = 'zh-Hans'
 
-TIME_ZONE = timezone.get_current_timezone_name()      #这是正确的使用时区的做法
+TIME_ZONE = 'Asia/Shanghai'      #这是正确的使用时区的做法
 
 USE_I18N = True
 
