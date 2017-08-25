@@ -58,11 +58,11 @@ class storge(models.Model):
     author = models.ForeignKey(User,primary_key=False)     #一篇日志可以只能一个作者，但一个作者可以写多个日志 ，故用foreignkey    一本书由多个作者编写，一个作者可以写很多本书，故用manytomanyField
     writeDate = models.DateTimeField(auto_now_add=True)   #写作日期
     modifyDate = models.DateTimeField(auto_now=True)   #修改日期
-    labels = models.ManyToManyField(label,null=True)
-    words = models.TextField(null=True)
-    images = models.ManyToManyField(image,null=True)
-    files = models.ManyToManyField(file,null=True)
-    comments = models.ManyToManyField(comment,null=True)
+    labels = models.ManyToManyField(label,null=True,blank=True)
+    words = models.TextField(null=True,blank=True)
+    images = models.ManyToManyField(image,null=True,blank=True)
+    files = models.ManyToManyField(file,null=True,blank=True)
+    comments = models.ManyToManyField(comment,null=True,blank=True)
     #存放文件路径
 
     def get(self):
