@@ -22,9 +22,9 @@
                     {{ essay.words }}
                 {% endif %}
             </blockquote>
-{#          {% for file in essay.files.all %}#}
-{#              {% include essay.files.name %}#}
-{#          {% endfor %}#}
+          {% for file in essay.files.all %}
+              {% include file %}
+          {% endfor %}
 {#          {% include essay.file %}#}
 {#          用来将别的网页嵌入到本网页中的语法#}
 {#          {% include "blog/main.html" %}#}

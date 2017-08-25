@@ -88,7 +88,6 @@ def diary(request,userName,diaryID):
         essay = models.diary.objects.filter(author=current_user)
         essay = essay.get(id=diaryID)
         context['essay'] = essay
-        print(essay.comments)
         return render(request, 'blog/essay.html', context)
     else:
         return Response
