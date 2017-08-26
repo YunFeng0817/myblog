@@ -35,13 +35,13 @@
         <div class="modal-body">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-6 col-xs-4">
+                    <div class="col-lg-6 col-xs-6">
                         <div class="form-group">
                             <label for="title">标题</label>
-                            <input type="text" class="form-control" name="blogID" required placeholder="标题" id="title">
+                            <input type="text" class="form-control" name="title" required placeholder="标题" id="title">
                         </div>
                     </div>
-                    <div class="col-lg-3 col-xs-2">
+                    <div class="col-lg-3 col-xs-6">
                         <label for="type">类型</label>
                         <select class="form-control" id="type">
                           <option>小日记</option>
@@ -52,13 +52,13 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-8 col-xs-4">
+                    <div class="col-lg-8 col-xs-8">
                         <label for="introduction">内容简介</label>
                         <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" required></textarea>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4" id="label">
+                    <div class="col-lg-2" id="label">
                         <label for="label">文章标签</label>
                         <select multiple class="form-control">
                             {% for label in labels %}
@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-10 col-xs-8">
+                    <div class="col-lg-10 col-xs-10">
                         <label for="words">正文</label>
                         <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文"></textarea>
                         <h5 style="color: #737373">可以选填</h5>
