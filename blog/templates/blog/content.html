@@ -24,22 +24,21 @@
 {#    模态框#}
     <!-- Large modal -->
 <!-- Large modal -->
-
+<!--用于写新的博客-->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
+  <form class="modal-dialog modal-lg" role="document">
+  {% csrf_token %}
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-    <form action="" method="post">
-    {% csrf_token %}
         <div class="modal-body">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-6 col-xs-4">
                         <div class="form-group">
-                            <label for="blogID">标题</label>
-                            <input type="text" class="form-control" name="blogID" required placeholder="标题" id="blogID">
+                            <label for="title">标题</label>
+                            <input type="text" class="form-control" name="blogID" required placeholder="标题" id="title">
                         </div>
                     </div>
                     <div class="col-lg-3 col-xs-2">
@@ -87,7 +86,6 @@
                 <div class="row">
                     <div class="col-lg-4" id="label">
                         <label for="label">选择你想显示的html文件</label>
-                        <h6 style="color: #737373">ps:点击右侧加号可以添加文件</h6>
                         <select multiple class="form-control">
                             {% for file in files %}
                                 {% if file in essay.files.all %}
@@ -107,7 +105,6 @@
                 <div class="row">
                     <div class="col-lg-4" id="label">
                         <label for="label">选择你想显示的图片</label>
-                        <h6 style="color: #737373">ps:点击右侧加号可以添加图片</h6>
                         <select multiple class="form-control">
                             {% for file in files %}
                                 {% if image in essay.images.all %}
@@ -124,19 +121,18 @@
                         <a href="base.html" target="view_window"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
-            <div style="text-align: right;">
+            </div>
+          </div>
+        <div class="modal-footer">
+        <div class="row">
+            <div class="col-xs-2 col-lg-offset-10">
                 <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
                 <button type="submit"  class="btn btn-primary ">提交</button>
             </div>
-          </div>
         </div>
-    </form>
-      <div class="modal-footer">
-        {% block insert-footer %}{% endblock %}
       </div>
-
     </div>
-  </div>
+  </form>
 </div>
 {% block diaries %}
 
