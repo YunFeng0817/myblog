@@ -32,6 +32,17 @@ def loginout(request):
             if flag=='true':
                 logout(request)
 
+
+def modelCommon(current_user,context):
+    labels = models.label.objects.filter(author=current_user)
+    context['labels'] = labels
+    files = models.file.objects.filter(author=current_user)
+    context['files'] = files
+    images = models.image.objects.filter(author=current_user)
+    context['images'] = images
+    return context
+
+
 #负责主页面的界面
 #此时也有坑  函数loginout()结束后还会继续执行之后的return render() ，导致页面密码输入错误不会得到错误提醒
 def main(request,userName):
@@ -69,6 +80,7 @@ def diaries(request,userName):
         current_user = User.objects.filter(name=userName)
         essay = models.diary.objects.filter(author=current_user)
         context['essays'] = essay
+        context = modelCommon(current_user,context)
         return render(request, 'blog/essay_list.html', context)
     else:
         return Response
@@ -88,8 +100,7 @@ def diary(request,userName,diaryID):
         essay = models.diary.objects.filter(author=current_user)
         essay = essay.get(id=diaryID)
         context['essay'] = essay
-        for i in essay.images.all():
-            print(i)
+        context = modelCommon(current_user, context)
         return render(request, 'blog/essay.html', context)
     else:
         return Response
@@ -116,6 +127,7 @@ def techs(request,userName):
         current_user = User.objects.filter(name=userName)
         essay = models.tech.objects.filter(author=current_user)
         context['essays'] = essay
+        context = modelCommon(current_user, context)
         return render(request, 'blog/essay_list.html', context)
     else:
         return Response
@@ -135,6 +147,7 @@ def tech(request,userName,techID):
         essay = models.tech.objects.filter(author=current_user)
         essay = essay.get(id=techID)
         context['essay'] = essay
+        context = modelCommon(current_user, context)
         return render(request, 'blog/essay.html', context)
     else:
         return Response
@@ -149,6 +162,7 @@ def trips(request,userName):
             current_user = User.objects.filter(name=userName)
             essay = models.trip.objects.filter(author=current_user)
             context['essays'] = essay
+            context = modelCommon(current_user, context)
         return render(request, 'blog/essay_list.html',context)
     else:
         return Response
@@ -167,6 +181,7 @@ def trip(request,userName,tripID):
         essay = models.trip.objects.filter(author=current_user)
         essay = essay.get(id=tripID)
         context['essay'] = essay
+        context = modelCommon(current_user, context)
         return render(request, 'blog/essay.html', context)
     else:
         return Response

@@ -10,6 +10,7 @@ import datetime
 
 #绑定在文章的文件
 class file(models.Model):
+    author = models.ForeignKey(User, primary_key=False)
     file = models.FileField(upload_to='essays/')
     addDate = models.DateTimeField(auto_now_add=True)
 
@@ -22,6 +23,7 @@ class file(models.Model):
 
 #这些是附属于各类型文章的标签
 class label(models.Model):
+    author = models.ForeignKey(User,primary_key=False)
     name = models.CharField(max_length=10, primary_key=True)
     addDate = models.DateTimeField(auto_now_add=True)
 
@@ -37,6 +39,7 @@ class label(models.Model):
 
 #绑定在文章和照片墙上的图片
 class image(models.Model):
+    author = models.ForeignKey(User, primary_key=False)
     introduction = models.CharField(max_length=200)
     img = models.ImageField(upload_to='blog/images/')
     addDate = models.DateTimeField(auto_now_add=True)

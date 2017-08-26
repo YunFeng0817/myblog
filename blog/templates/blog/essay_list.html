@@ -7,15 +7,15 @@
             <ul class="list-inline">
                 <li>
                     <ul class="list-inline">
-                        <li><h1 style="margin: 0"> {{ essay.title }} </h1></li>
+                        <li><h2 style="margin: 0"> {{ essay.title }} </h2></li>
                         {% for label in essay.labels.all %}
                             <li><h4><span class="label label-default">{{ label }}</span></h4></li>
                         {% endfor %}
                     </ul>
                 </li>
                 {% if user.name == id %}
-                    <li style="position:absolute;right: 30%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
-                    <li style="position: absolute;right:25%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
+                    <li style="position:absolute;right: 25%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
+                    <li style="position: absolute;right:20%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
                 {% endif %}
             </ul>
             <div class=" left-block ">

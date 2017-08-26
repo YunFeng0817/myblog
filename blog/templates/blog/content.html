@@ -16,10 +16,128 @@
             {% endif %}
         </h4></a></li>
         {% if user.name == id %}
-            <li style="position: absolute;right: 2%;"><button type="button" class="btn btn-success"><h5 style="margin: 0;"><span class="glyphicon glyphicon-plus"></span>       增加</h5></button></li>
+            <li style="position: absolute;right: 2%;"><button type="button" class="btn btn-success" data-toggle="modal" data-target=".bs-example-modal-lg"><h5 style="margin: 0;"><span class="glyphicon glyphicon-plus"></span>       增加</h5></button></li>
         {% endif %}
     </ul>
     </div>
+
+{#    模态框#}
+    <!-- Large modal -->
+<!-- Large modal -->
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+    <form action="" method="post">
+    {% csrf_token %}
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-xs-4">
+                        <div class="form-group">
+                            <label for="blogID">标题</label>
+                            <input type="text" class="form-control" name="blogID" required placeholder="标题" id="blogID">
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-2">
+                        <label for="type">类型</label>
+                        <select class="form-control" id="type">
+                          <option>小日记</option>
+                          <option>收获</option>
+                          <option>旅游</option>
+                          <option>照片墙</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 col-xs-4">
+                        <label for="introduction">内容简介</label>
+                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" required></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4" id="label">
+                        <label for="label">文章标签</label>
+                        <select multiple class="form-control">
+                            {% for label in labels %}
+                                {% if label in essay.labels.all %}
+                                    <option selected>{{ label }}</option>
+                                {% else %}
+                                    <option>{{ label }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                    </div>
+                    <div class="col-lg-1">
+                        <br><br><br>
+                        <a href="base.html" target="view_window"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 col-xs-8">
+                        <label for="words">正文</label>
+                        <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文"></textarea>
+                        <h5 style="color: #737373">可以选填</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4" id="label">
+                        <label for="label">选择你想显示的html文件</label>
+                        <h6 style="color: #737373">ps:点击右侧加号可以添加文件</h6>
+                        <select multiple class="form-control">
+                            {% for file in files %}
+                                {% if file in essay.files.all %}
+                                    <option selected>{{ file }}</option>
+                                {% else %}
+                                    <option>{{ file }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                    </div>
+                    <div class="col-lg-1">
+                        <br><br><br>
+                        <a href="base.html" target="view_window"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4" id="label">
+                        <label for="label">选择你想显示的图片</label>
+                        <h6 style="color: #737373">ps:点击右侧加号可以添加图片</h6>
+                        <select multiple class="form-control">
+                            {% for file in files %}
+                                {% if image in essay.images.all %}
+                                    <option selected>{{ image }}</option>
+                                {% else %}
+                                    <option>{{ image }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                    </div>
+                    <div class="col-lg-1">
+                        <br><br><br>
+                        <a href="base.html" target="view_window"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
+                </div>
+            <div style="text-align: right;">
+                <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
+                <button type="submit"  class="btn btn-primary ">提交</button>
+            </div>
+          </div>
+        </div>
+    </form>
+      <div class="modal-footer">
+        {% block insert-footer %}{% endblock %}
+      </div>
+
+    </div>
+  </div>
+</div>
 {% block diaries %}
 
 {% endblock %}
