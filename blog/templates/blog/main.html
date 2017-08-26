@@ -29,16 +29,16 @@
 
 {% block content %}
     <div class="center-block container-fluid" style="width: 50%">
-        <div class=" left-block "  style="width: 50%;">
-        </div>
         <div class="row">
             <div class="col-lg-6">
                 <img class="img-responsive" src="{% static 'blog/images/welcome.jpg' %}">
             </div>
         </div>
     <hr>
+    {% if diaries %}
         <h1>小日记 <span class="label label-info">New</span></h1>
         <br><br>
+    {% endif %}
         {% for diary in diaries %}
             <div class="container-fluid">
                 <div class="row">
@@ -46,11 +46,11 @@
                         <h3 style="margin: 0"> {{ diary.title }} </h3>
                     </div>
                     {% if user.name == id %}
-                        <div class="col-lg-1 col-lg-offset-3">
-                            <button type="button" style="margin: 30%" class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        <div class="col-lg-1 col-lg-offset-3 col-xs-1">
+                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                         </div>
                         <div class="col-lg-1 ">
-                            <button type="button" style="margin: 30%" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
                 </div>
@@ -67,8 +67,10 @@
             </div>
         {% endfor %}
     <hr>
+    {% if techs %}
         <h1>收获  <span class="label label-primary">New</span></h1>
         <br><br>
+    {% endif %}
         {% for tech in techs %}
             <div class="center-block">
                 <ul class="list-inline">
@@ -91,8 +93,10 @@
             </div>
         {% endfor %}
     <hr>
+    {% if trips %}
         <h1>旅游<span class="label label-success">New</span></h1>
         <br><br>
+    {% endif %}
         {% for trip in trips %}
             <div class="center-block">
                 <ul class="list-inline">

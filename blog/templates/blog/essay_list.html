@@ -4,20 +4,24 @@
 {% block diaries %}
     <div class="center-block" style="width: 50%">
         {% for essay in essays %}
-            <ul class="list-inline">
-                <li>
+            <div class="container-fluid">
+                <div class="col-lg-10">
                     <ul class="list-inline">
                         <li><h2 style="margin: 0"> {{ essay.title }} </h2></li>
                         {% for label in essay.labels.all %}
                             <li><h4><span class="label label-default">{{ label }}</span></h4></li>
                         {% endfor %}
                     </ul>
-                </li>
+                </div>
                 {% if user.name == id %}
-                    <li style="position:absolute;right: 25%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
-                    <li style="position: absolute;right:20%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                    </div>
+                    <div class="col-lg-1">
+                        <button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                    </div>
                 {% endif %}
-            </ul>
+            </div>
             <div class=" left-block ">
                 <div class="list-group text-center">
                   <a href="{{ essay.id }}/" class="list-group-item list-group-item-info">
