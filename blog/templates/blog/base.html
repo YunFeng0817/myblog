@@ -112,13 +112,14 @@
             <input type="password" class="form-control" name="password" required id="exampleInputPassword1" placeholder="密码">
             </div>
             <br>
-            <div style="text-align: right;">
-            <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
-            <button type="submit"  class="btn btn-primary " id="submit">登录</button>
-            </div>
       </div>
       <div class="modal-footer">
-        {% block insert-footer %}{% endblock %}
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-8">
+                <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
+                <button type="submit"  class="btn btn-primary " id="submit">登录</button>
+            </div>
+        </div>
       </div>
     </div>
   </div>

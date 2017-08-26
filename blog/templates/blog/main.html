@@ -3,7 +3,7 @@
 
 {% block head %}
     {% load static %}
-    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">
+{#    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">#}
 {% endblock %}
 
 
@@ -28,25 +28,32 @@
 {#{% endblock %}#}
 
 {% block content %}
-    <div class="center-block" style="width: 50%">
+    <div class="center-block container-fluid" style="width: 50%">
         <div class=" left-block "  style="width: 50%;">
-            <div class="jumbotron" id="bigArea">
-                <h3 class="words">生活不止眼前的苟且</h3>
-                <h3 class="words">还有诗和远方</h3>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <img class="img-responsive" src="{% static 'blog/images/welcome.jpg' %}">
             </div>
         </div>
     <hr>
         <h1>小日记 <span class="label label-info">New</span></h1>
         <br><br>
         {% for diary in diaries %}
-            <div class="center-block">
-                <ul class="list-inline">
-                        <li><h3 style="margin: 0"> {{ diary.title }} </h3></li>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 style="margin: 0"> {{ diary.title }} </h3>
+                    </div>
                     {% if user.name == id %}
-                        <li style="position:absolute;right: 30%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
-                        <li style="position: absolute;right:25%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
+                        <div class="col-lg-1 col-lg-offset-3">
+                            <button type="button" style="margin: 30%" class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        </div>
+                        <div class="col-lg-1 ">
+                            <button type="button" style="margin: 30%" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                        </div>
                     {% endif %}
-                </ul>
+                </div>
             <div class=" left-block ">
                 <div class="list-group text-center">
                   <a href="/id={{ id }}/diary/{{ diary.id }}/" class="list-group-item list-group-item-info">
