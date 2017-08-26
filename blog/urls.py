@@ -16,5 +16,6 @@ urlpatterns=[
     url(r'^id=([^/]+)/trip/$', trips, name='trips'),
     url(r'^id=([^/]+)/trip/(\d+)/$', trip, name='trip'),
     url(r'^id=([^/]+)/photo/$',photos,name='photos'),
+    url(r'^id=([^/]+)/label/add/$',addLabels,name='addLabel'),
 
 ]
