@@ -37,8 +37,8 @@
                 <div class="row">
                     <div class="col-lg-6 col-xs-6">
                         <div class="form-group">
-                            <label for="title">标题</label>
-                            <input type="text" class="form-control" name="title" required placeholder="标题" id="title">
+                            <label for="title" class="DispearForPhoto">标题</label>
+                            <input type="text" class="form-control DispearForPhoto" name="title" required placeholder="标题" id="title">
                         </div>
                     </div>
                     <div class="col-lg-3 col-xs-6">
@@ -57,7 +57,7 @@
                         <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" required></textarea>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row DispearForPhoto">
                     <div class="col-lg-2" id="label">
                         <label for="label">文章标签</label>
                         <select multiple class="form-control" id="labelSelect">
@@ -71,19 +71,19 @@
                         </select>
                         <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
                     </div>
-                    <div class="col-lg-1">
+                    <div class="col-lg-1 DispearForPhoto">
                         <br><br><br>
                         <a  onclick="open_win_label()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-10 col-xs-10">
+                    <div class="col-lg-10 col-xs-10 DispearForPhoto">
                         <label for="words">正文</label>
                         <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文"></textarea>
                         <h5 style="color: #737373">可以选填</h5>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row DispearForPhoto">
                     <div class="col-lg-8" id="label">
                         <label for="label">选择你想显示的html文件</label>
                         <select multiple class="form-control" id="fileSelect">
@@ -154,4 +154,21 @@
         window.opener.close()
     }
     </script>
+{% load static %}
+<script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#type').click(function () {
+            var type = $('#type').val();
+            if (type=='照片墙')
+            {
+                $('.DispearForPhoto').css({"display":"none"});
+            }
+            else
+            {
+                $('.DispearForPhoto').css({"display":"block"});
+            }
+        })
+    })
+</script>
 {% endblock %}
