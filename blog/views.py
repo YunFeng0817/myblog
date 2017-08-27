@@ -4,7 +4,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from users.models import User
 from django.utils.timezone import datetime
-from django.contrib import messages
+#from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 import datetime
 from blog import models
 # Create your views here.
@@ -203,6 +204,42 @@ def addLabels(request,current_user):
     else:
         return render(request,'blog/addLabels.html')
 
+#此处莫名的大坑 不断csrf认证错误
+@csrf_exempt
+def addFiles(request, current_user):
+    if request.method == 'POST':
+        user = User.objects.get(name=current_user)
+        current_user = request.user
+        if current_user == user:
+            File = request.FILES['File']
+            fileObject = models.file()
+            fileObject.author = current_user
+            fileObject.file = File
+            fileObject.save()
+            return HttpResponse('上传成功')
+        else:
+            return HttpResponse('非法访问')
+    else:
+        return render(request, 'blog/addFiles.html')
+
+@csrf_exempt
+def addImages(request, current_user):
+    if request.method == 'POST':
+        user = User.objects.get(name=current_user)
+        current_user = request.user
+        if current_user == user:
+            Image = request.FILES['File']
+            introduction = request.POST['introduction']
+            imageObject = models.image()
+            imageObject.author = current_user
+            imageObject.img = Image
+            imageObject.introduction = introduction
+            imageObject.save()
+            return HttpResponse('上传成功')
+        else:
+            return HttpResponse('非法访问')
+    else:
+        return render(request, 'blog/addImages.html')
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):

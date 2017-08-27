@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
     <title>
-        上传文件
+        上传图片
     </title>
     {% load static %}
     <!-- Bootstrap -->
@@ -13,8 +13,14 @@
 <body>
 <div class="form-group">
     <div class="row">
+    <div class="col-xs-6">
+        <label for="label"><h3>图片简介</h3></label>
+        <input type="text"  required class="form-control" name="label" placeholder="图片简介" id="introduction" />
+    </div>
+</div>
+    <div class="row">
         <div class="col-xs-6">
-            <label for="addFile">上传文件</label>
+            <label for="addFile">上传图片</label>
             <input type="file" id="addFile" required>
         </div>
     </div>
@@ -31,9 +37,11 @@
     $(document).ready(function () {
         $('#saveFile').click(function (){
             var form = new FormData();
+            var words = $('#introduction').val();
             var File = $('#addFile')[0].files[0];
             form.append("File",File);
-            if(File==undefined)
+            form.append("introduction",words);
+            if(File==undefined||words=='')
             {
                 alert('请填写后再提交！');
             }
@@ -49,7 +57,7 @@
                         var y=document.createElement('option');
                         y.text = 'essays/'+File.name;
                         //给父窗口的label多选框添加刚刚新增的label
-                        window.opener.document.getElementById('fileSelect').add(y,0);
+                        window.opener.document.getElementById('imageSelect').add(y,0);
                         window.close();
                     }
                     else{

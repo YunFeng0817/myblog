@@ -11,11 +11,11 @@ import datetime
 #绑定在文章的文件
 class file(models.Model):
     author = models.ForeignKey(User, primary_key=False)
-    file = models.FileField(upload_to='essays/')
+    file = models.FileField(upload_to='essays/%Y_%m_%d/')
     addDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.file.url
+        return self.file.name
     class Meta:
         ordering = ["-addDate"]
 
@@ -41,7 +41,7 @@ class label(models.Model):
 class image(models.Model):
     author = models.ForeignKey(User, primary_key=False)
     introduction = models.CharField(max_length=200)
-    img = models.ImageField(upload_to='blog/images/')
+    img = models.ImageField(upload_to='blog/images/%Y_%m_%d/')
     addDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

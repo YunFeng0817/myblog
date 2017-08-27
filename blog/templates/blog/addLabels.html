@@ -30,7 +30,7 @@
     $(document).ready(function () {
         $('#save').click(function (){
             var x = $('#label').val();
-            if(x.isElementContentWhitespace)
+            if(x=='')
             {
                 alert('请填写后再提交！')
             }

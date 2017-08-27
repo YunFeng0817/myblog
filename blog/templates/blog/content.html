@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-lg-1">
                         <br><br><br>
-                        <a  onclick="open_win()"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a  onclick="open_win_label()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
                 <div class="row">
@@ -84,9 +84,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4" id="label">
+                    <div class="col-lg-8" id="label">
                         <label for="label">选择你想显示的html文件</label>
-                        <select multiple class="form-control">
+                        <select multiple class="form-control" id="fileSelect">
                             {% for file in files %}
                                 {% if file in essay.files.all %}
                                     <option selected>{{ file }}</option>
@@ -99,14 +99,14 @@
                     </div>
                     <div class="col-lg-1">
                         <br><br><br>
-                        <a href="base.html" target="/id={{ id }}/label/add/"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a onclick="open_win_file()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4" id="label">
+                    <div class="col-lg-8" id="label">
                         <label for="label">选择你想显示的图片</label>
-                        <select multiple class="form-control">
-                            {% for file in files %}
+                        <select multiple class="form-control" id="imageSelect">
+                            {% for image in images %}
                                 {% if image in essay.images.all %}
                                     <option selected>{{ image }}</option>
                                 {% else %}
@@ -118,7 +118,7 @@
                     </div>
                     <div class="col-lg-1">
                         <br><br><br>
-                        <a href="base.html" target="view_window"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a onclick="open_win_image()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
             </div>
@@ -138,8 +138,18 @@
 
 {% endblock %}
     <script type="text/javascript">
-    function open_win() {
+    function open_win_label() {
         myWindow=window.open('/id={{ id }}/label/add/','添加新标签','directories=no,location=no,width=500,height=200，_blank,left=400,top=200');
+        myWindow.focus();
+        window.opener.close()
+    }
+    function open_win_file() {
+        myWindow=window.open('/id={{ id }}/file/add/','上传新文件','directories=no,location=no,width=500,height=200，_blank,left=400,top=200');
+        myWindow.focus();
+        window.opener.close()
+    }
+    function open_win_image() {
+        myWindow=window.open('/id={{ id }}/image/add/','上传新文件','directories=no,location=no,width=500,height=200，_blank,left=400,top=200');
         myWindow.focus();
         window.opener.close()
     }

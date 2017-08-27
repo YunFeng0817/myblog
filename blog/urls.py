@@ -17,5 +17,7 @@ urlpatterns=[
     url(r'^id=([^/]+)/trip/(\d+)/$', trip, name='trip'),
     url(r'^id=([^/]+)/photo/$',photos,name='photos'),
     url(r'^id=([^/]+)/label/add/$',addLabels,name='addLabel'),
+    url(r'^id=([^/]+)/file/add/$',addFiles,name='addFile'),
+    url(r'^id=([^/]+)/image/add/$',addImages,name='addImage'),
 
 ]
