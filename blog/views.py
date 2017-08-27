@@ -189,13 +189,17 @@ def trip(request,userName,tripID):
 #增加标签的页面
 def addLabels(request,current_user):
     if request.method =='POST':
-        current_user = User.objects.get(name=current_user)
-        label = request.POST['label']
-        labelObject = models.label()
-        labelObject.author = current_user
-        labelObject.name = label
-        labelObject.save()
-        return HttpResponse('保存成功')
+        user = User.objects.get(name=current_user)
+        current_user = request.user
+        if current_user==user:
+            label = request.POST['label']
+            labelObject = models.label()
+            labelObject.author = current_user
+            labelObject.name = label
+            labelObject.save()
+            return HttpResponse('保存成功')
+        else:
+            return HttpResponse('非法访问')
     else:
         return render(request,'blog/addLabels.html')
 

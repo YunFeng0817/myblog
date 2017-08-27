@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="col-lg-2" id="label">
                         <label for="label">文章标签</label>
-                        <select multiple class="form-control">
+                        <select multiple class="form-control" id="labelSelect">
                             {% for label in labels %}
                                 {% if label in essay.labels.all %}
                                     <option selected>{{ label }}</option>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-lg-1">
                         <br><br><br>
-                        <a href="/id={{ id }}/label/add/" target="add label"><span class="glyphicon glyphicon-plus"></span></a>
+                        <a  onclick="open_win()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
                 </div>
                 <div class="row">
@@ -137,4 +137,11 @@
 {% block diaries %}
 
 {% endblock %}
+    <script type="text/javascript">
+    function open_win() {
+        myWindow=window.open('/id={{ id }}/label/add/','添加新标签','directories=no,location=no,width=500,height=200，_blank,left=400,top=200');
+        myWindow.focus();
+        window.opener.close()
+    }
+    </script>
 {% endblock %}

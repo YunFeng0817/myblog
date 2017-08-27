@@ -17,11 +17,11 @@
           <div class="panel-body">
           {% load static %}
 {#          <img class="img-responsive" src="{% static 'blog/images/program.jpg' %}">#}
-            <blockquote>
-                {% if essay.words %}
+            {% if essay.words %}
+                <blockquote>
                     {{ essay.words }}
-                {% endif %}
-            </blockquote>
+                </blockquote>
+            {% endif %}
           {% for image in essay.images.all %}
               <img class="img-responsive" src="{% static image %}">
           {% endfor %}

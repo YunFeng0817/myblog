@@ -12,11 +12,14 @@
 </head>
 <body>
 <div class="row">
-    <div class="col-lg-6">
-        <label for="title">标签内容</label>
-        <input type="text" class="form-control" name="label" required placeholder="标签" id="label">
+    <div class="col-xs-6">
+        <label for="label"><h3>标签内容</h3></label>
+        <input type="text"  required class="form-control" name="label" placeholder="标签" id="label" />
     </div>
-    <div class="col-lg-offset-8">
+</div>
+<br>
+<div>
+    <div>
         <button type="submit" id="save" class="btn btn-primary ">保存</button>
     </div>
 </div>
@@ -27,18 +30,28 @@
     $(document).ready(function () {
         $('#save').click(function (){
             var x = $('#label').val();
-            $.ajax({url:'',type:'post',data:{'label':x},success:function (data,status) {
+            if(x.isElementContentWhitespace)
             {
-                alert(data);
-                if(status.isEqual('success'))
+                alert('请填写后再提交！')
+            }
+            else{
+                $.ajax({url:'',type:'post',data:{'label':x},success:function (data,status) {
+            {
+                if(data=='保存成功')
                 {
-                    //提交成功后关闭窗口的动作
-                    window.opener = null;
-                    window.open('','_self');
+                    alert(data);
+                    var y=document.createElement('option');
+                    y.text = x;
+                    //给父窗口的label多选框添加刚刚新增的label
                     window.close();
+                    window.opener.document.getElementById('labelSelect').add(y,0);
+                }
+                else{
+                    alert(data);
                 }
             }
             },async:false});
+            }
         });
     });
 </script>
