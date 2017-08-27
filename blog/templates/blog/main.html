@@ -46,10 +46,10 @@
                         <h3 style="margin: 0"> {{ diary.title }} </h3>
                     </div>
                     {% if user.name == id %}
-                        <div class="col-lg-1 col-lg-offset-3 col-xs-1">
+                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
                             <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                         </div>
-                        <div class="col-lg-1 ">
+                        <div class="col-lg-1 col-xs-1 col-md-offset-3 col-xs-offset-3">
                             <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
@@ -72,14 +72,20 @@
         <br><br>
     {% endif %}
         {% for tech in techs %}
-            <div class="center-block">
-                <ul class="list-inline">
-                        <li><h3 style="margin: 0"> {{ tech.title }} </h3></li>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 style="margin: 0"> {{ tech.title }} </h3>
+                    </div>
                     {% if user.name == id %}
-                        <li style="position:absolute;right: 30%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
-                        <li style="position: absolute;right:25%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
+                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
+                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        </div>
+                        <div class="col-lg-1 col-xs-1 col-md-offset-3 col-xs-offset-3">
+                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                        </div>
                     {% endif %}
-                </ul>
+                </div>
             <div class=" left-block ">
                 <div class="list-group text-center">
                   <a href="/id={{ id }}/tech/{{ tech.id }}/" class="list-group-item list-group-item-info">
@@ -98,14 +104,20 @@
         <br><br>
     {% endif %}
         {% for trip in trips %}
-            <div class="center-block">
-                <ul class="list-inline">
-                        <li><h3 style="margin: 0"> {{ trip.title }} </h3></li>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <h3 style="margin: 0"> {{ trip.title }} </h3>
+                    </div>
                     {% if user.name == id %}
-                        <li style="position:absolute;right: 30%"><button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button></li>
-                        <li style="position: absolute;right:25%;"><button type="button" class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button></li>
+                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
+                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        </div>
+                        <div class="col-lg-1 col-xs-1 col-md-offset-3 col-xs-offset-3">
+                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                        </div>
                     {% endif %}
-                </ul>
+                </div>
             <div class=" left-block ">
                 <div class="list-group text-center">
                   <a href="/id={{ id }}/trip/{{ trip.id }}/" class="list-group-item list-group-item-info">
