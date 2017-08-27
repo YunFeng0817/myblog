@@ -4,64 +4,13 @@
     {% load static %}
     <div class="center-block" style="width: 80%;">
         <div class="row">
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-            <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div><div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div><div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
-          <div class="col-xs-6 col-md-2">
-            <a href="" class="thumbnail">
-              <img src={% static "blog/images/t.jpg" %} alt="...">
-            </a>
-          </div>
+            {% for image in images %}
+              <div class="col-xs-6 col-md-2">
+                <a href="" class="thumbnail">
+                  <img src={% static image.img %} alt="...">
+                </a>
+              </div>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

@@ -112,6 +112,9 @@ def photos(request,userName):
     Response = loginout(request)
     context = {'contentType': '照片墙','id':userName}
     if Response == None:
+        current_user = User.objects.filter(name=userName)
+        images = models.image.objects.filter(author=current_user).all()
+        context['images'] = images
         return render(request, 'blog/photos.html', context)
     else:
         return Response
