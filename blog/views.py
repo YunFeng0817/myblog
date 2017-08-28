@@ -37,7 +37,7 @@ def loginout(request):
 
 
 def modelCommon(current_user,context):
-    labels = models.label.objects.filter(author=current_user)
+    labels = models.label.objects.all()
     context['labels'] = labels
     files = models.file.objects.filter(author=current_user)
     context['files'] = files
@@ -66,6 +66,7 @@ def main(request,userName):
         if not trips:
             trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
         context['trips'] = trips
+        context = modelCommon(current_user, context)
         return render(request, 'blog/main.html',context)
     else:
         return Response
@@ -213,11 +214,14 @@ def addLabels(request,current_user):
         current_user = request.user
         if current_user==user:
             label = request.POST['label']
-            labelObject = models.label()
-            labelObject.author = current_user
-            labelObject.name = label
-            labelObject.save()
-            return HttpResponse('保存成功')
+            try:
+                labelObject = models.label()
+                labelObject.author = current_user
+                labelObject.name = label
+                labelObject.save()
+                return HttpResponse('保存成功')
+            except:
+                return HttpResponse('此标签已存在')
         else:
             return HttpResponse('非法访问')
     else:
@@ -263,11 +267,11 @@ def addImages(request, current_user):
     else:
         return render(request, 'blog/addImages.html')
 
-def addEssay(request,userName):
+def addEssay(request,username):
     if request.method =='POST':
-        username = User.objects.get(name=userName)
+        userName = User.objects.get(name=username)
         current_user = request.user
-        if username == current_user:
+        if userName == current_user:
             type = request.POST['type']
             if type=="照片墙":
                 return redirect('/id='+userName+'/photo/')
@@ -275,7 +279,11 @@ def addEssay(request,userName):
                 title = request.POST['title']
                 introduction = request.POST['introduction']
                 if type == "小日记":
-                    diary = models.diary.objects.create(author = current_user)
+                    try:
+                        id = request.POST['ContentID']
+                        diary = models.diary.objects.get(id=id)
+                    except:
+                        diary = models.diary.objects.create(author = current_user)
                     diary.introduction = introduction
                     diary.title = title
                     #由于这些内容是可选的，所以要依次尝试
@@ -283,7 +291,11 @@ def addEssay(request,userName):
                         labels = request.POST.getlist("labels")
                         for label in labels:  #这是一个包含选项字符串的列表
                             labelObject = models.label.objects.get(name=label)
-                            diary.labels.add(labelObject)
+                            if labelObject not in diary.labels.all():
+                                diary.labels.add(labelObject)
+                        for label in diary.labels.all():
+                            if label.name not in labels:
+                                diary.labels.remove(label)
                     except:
                         pass
                     try:
@@ -295,27 +307,45 @@ def addEssay(request,userName):
                         files = request.POST.getlist('files')
                         for file in files:
                             fileObject = models.file.objects.get(id=file)
-                            diary.files.add(fileObject)
+                            if fileObject not in diary.files.all():
+                                diary.files.add(fileObject)
+                        for fileObject in diary.files.all():
+                            if str(fileObject.id) not in files:       #此处有坑  id不是字符串，而表单上传的是字符串，导致文件先上传后删除
+                                diary.files.remove(fileObject)
                     except:
                         pass
                     try:
                         images = request.POST.getlist('images')
+                        print(images)
                         for image in images:
                             imageObject = models.image.objects.get(id=image)
-                            diary.images.add(imageObject)
+                            if imageObject not in diary.images.all():
+                                diary.images.add(imageObject)
+                        for imageObject in diary.images.all():
+                            if str(imageObject.id) not in images:
+                                diary.images.remove(imageObject)
                     except:
                         pass
                     diary.save()
+                    return redirect('/id='+username+'/diary/')
                 elif type == "收获":
-                    tech = models.tech.objects.create(author=current_user)
+                    try:
+                        id = request.POST['ContentID']
+                        tech = models.tech.objects.get(id=id)
+                    except:
+                        tech = models.tech.objects.create(author = current_user)
                     tech.introduction = introduction
                     tech.title = title
                     # 由于这些内容是可选的，所以要依次尝试
                     try:
                         labels = request.POST.getlist("labels")
-                        for label in labels:  # 这是一个包含选项字符串的列表
+                        for label in labels:  #这是一个包含选项字符串的列表
                             labelObject = models.label.objects.get(name=label)
-                            tech.labels.add(labelObject)
+                            if labelObject not in tech.labels.all():
+                                tech.labels.add(labelObject)
+                        for label in tech.labels.all():
+                            if label.name not in labels:
+                                tech.labels.remove(label)
                     except:
                         pass
                     try:
@@ -327,27 +357,44 @@ def addEssay(request,userName):
                         files = request.POST.getlist('files')
                         for file in files:
                             fileObject = models.file.objects.get(id=file)
-                            tech.files.add(fileObject)
+                            if fileObject not in tech.files.all():
+                                tech.files.add(fileObject)
+                        for fileObject in tech.files.all():
+                            if str(fileObject.id) not in files:
+                                tech.files.remove(fileObject)
                     except:
                         pass
                     try:
                         images = request.POST.getlist('images')
                         for image in images:
                             imageObject = models.image.objects.get(id=image)
-                            tech.images.add(imageObject)
+                            if imageObject not in tech.images.all():
+                                tech.images.add(imageObject)
+                        for imageObject in tech.images.all():
+                            if str(imageObject.id) not in images:
+                                tech.images.remove(imageObject)
                     except:
                         pass
                     tech.save()
+                    return redirect('/id=' + username + '/tech/')
                 elif type == "旅游":
-                    trip = models.trip.objects.create(author=current_user)
+                    try:
+                        id = request.POST['ContentID']
+                        trip = models.trip.objects.get(id=id)
+                    except:
+                        trip = models.trip.objects.create(author = current_user)
                     trip.introduction = introduction
                     trip.title = title
                     # 由于这些内容是可选的，所以要依次尝试
                     try:
                         labels = request.POST.getlist("labels")
-                        for label in labels:  # 这是一个包含选项字符串的列表
+                        for label in labels:  #这是一个包含选项字符串的列表
                             labelObject = models.label.objects.get(name=label)
-                            trip.labels.add(labelObject)
+                            if labelObject not in trip.labels.all():
+                                trip.labels.add(labelObject)
+                        for label in trip.labels.all():
+                            if label.name not in labels:
+                                trip.labels.remove(label)
                     except:
                         pass
                     try:
@@ -359,20 +406,28 @@ def addEssay(request,userName):
                         files = request.POST.getlist('files')
                         for file in files:
                             fileObject = models.file.objects.get(id=file)
-                            trip.files.add(fileObject)
+                            if fileObject not in trip.files.all():
+                                trip.files.add(fileObject)
+                        for fileObject in trip.files.all():
+                            if str(fileObject.id) not in files:
+                                trip.files.remove(fileObject)
                     except:
                         pass
                     try:
                         images = request.POST.getlist('images')
                         for image in images:
                             imageObject = models.image.objects.get(id=image)
-                            trip.images.add(imageObject)
+                            if imageObject not in trip.images.all():
+                                trip.images.add(imageObject)
+                        for imageObject in trip.images.all():
+                            if str(imageObject.id) not in images:
+                                trip.images.remove(imageObject)
                     except:
                         pass
                     trip.save()
+                    return redirect('/id=' + username + '/trip/')
                 else:
                     return HttpResponse('表单类型错误')
-            return redirect('/id='+userName+'/')
         else:
             return HttpResponse('非法提交')
     else:

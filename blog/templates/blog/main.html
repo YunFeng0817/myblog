@@ -35,10 +35,7 @@
                         <h3 style="margin: 0"> {{ diary.title }} </h3>
                     </div>
                     {% if user.name == id %}
-                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
-                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
-                        </div>
-                        <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
+                        <div class="col-lg-1 col-lg-offset-4 col-xs-offset-0 col-xs-2">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—diary-{{ diary.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
@@ -96,10 +93,7 @@
                         <h3 style="margin: 0"> {{ tech.title }} </h3>
                     </div>
                     {% if user.name == id %}
-                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
-                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
-                        </div>
-                        <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
+                        <div class="col-lg-1 col-lg-offset-4 col-xs-offset-0 col-xs-2">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—tech-{{ tech.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
@@ -157,10 +151,7 @@
                         <h3 style="margin: 0"> {{ trip.title }} </h3>
                     </div>
                     {% if user.name == id %}
-                        <div class="col-lg-1 col-lg-offset-3 col-xs-offset-0 col-xs-2">
-                            <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
-                        </div>
-                        <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
+                        <div class="col-lg-1 col-lg-offset-4 col-xs-offset-0 col-xs-2">
                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—trip-{{ trip.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
@@ -216,7 +207,4 @@
 {#            </div>#}
 {#        </div>#}
     </div>
-{% endblock %}
-
-{% block insert-content %}
 {% endblock %}

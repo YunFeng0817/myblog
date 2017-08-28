@@ -18,7 +18,130 @@
                 </div>
                 {% if user.name == id %}
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        <button type="button" class="btn btn-warning" id="model" data-toggle="modal" data-target=".bs-modify-modal-lg-{{ essay.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        <div class="modal fade bs-modify-modal-lg-{{ essay.id }}" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+                          <form class="modal-dialog modal-lg" role="document" method="post" action="{% url 'blog:addEssay' id %}">
+                          {% csrf_token %}
+                          <input type="text" hidden value="{{ essay.id }}" name="ContentID">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6">
+                                                <div class="form-group">
+                                                    <label for="title" class="DispearForPhoto">标题</label>
+                                                    <input type="text" class="form-control DispearForPhoto" name="title"  placeholder="标题" id="title" value="{{ essay.title }}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-xs-6">
+                                                <label for="type">类型</label>
+                                                <select class="form-control" name="type" id="type">
+                                                    {% if contentType == '小日记' %}
+                                                        <option selected>小日记</option>
+                                                    {% else %}
+                                                        <option>小日记</option>
+                                                    {% endif %}
+                                                  {% if contentType == '收获' %}
+                                                        <option selected>收获</option>
+                                                    {% else %}
+                                                        <option>收获</option>
+                                                    {% endif %}
+                                                  {% if contentType == '旅游' %}
+                                                        <option selected>旅游</option>
+                                                    {% else %}
+                                                        <option>旅游</option>
+                                                    {% endif %}
+                                                  <option>照片墙</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row DispearForPhoto">
+                                            <div class="col-lg-8 col-xs-8">
+                                                <label for="introduction">内容简介</label>
+                                                <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" name="introduction" >{{ essay.introduction }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row DispearForPhoto">
+                                            <div class="col-lg-2" id="label">
+                                                <label for="label">文章标签</label>
+                                                <select multiple name="labels" class="form-control" id="labelSelect">
+                                                    {% for label in labels %}
+                                                        {% if label in essay.labels.all %}
+                                                            <option selected value="{{ label }}">{{ label }}</option>
+                                                        {% else %}
+                                                            <option value="{{ label }}">{{ label }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                                            </div>
+                                            <div class="col-lg-1 DispearForPhoto">
+                                                <br><br><br>
+                                                <a  onclick="open_win_label()"><span class="glyphicon glyphicon-plus"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-10 col-xs-10 DispearForPhoto">
+                                                <label for="words">正文</label>
+                                                <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文" name="words">{{ essay.words }}</textarea>
+                                                <h5 style="color: #737373">可以选填</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row DispearForPhoto">
+                                            <div class="col-lg-8" id="label">
+                                                <label for="label">选择你想显示的html文件</label>
+                                                <select multiple class="form-control" id="fileSelect" name="files">
+                                                    {% for file in files %}
+                                                        {% if file in essay.files.all %}
+                                                            <option selected value="{{ file.id }}">{{ file }}</option>
+                                                        {% else %}
+                                                            <option value="{{ file.id }}">{{ file }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <br><br><br>
+                                                <a onclick="open_win_file()"><span class="glyphicon glyphicon-plus"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-8" id="label">
+                                                <label for="label" id="imageHint">选择你想显示的图片</label>
+                                                <select multiple class="form-control" id="imageSelect" name="images" size="10">
+                                                    {% for image in images %}
+                                                        {% if image in essay.images.all %}
+                                                            <option selected value="{{ image.id }}">{{ image }}</option>
+                                                        {% else %}
+                                                            <option value="{{ image.id }}">{{ image }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <br><br><br>
+                                                <a onclick="open_win_image()"><span class="glyphicon glyphicon-plus"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                                <div class="modal-footer">
+                                <div class="row">
+                                    <div class="col-lg-2 col-lg-offset-10">
+                                        <input type="text" hidden id="essayID" value="">
+                                        <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
+                                        <button type="submit"  class="btn btn-primary ">提交</button>
+                                    </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
                     </div>
                     <div class="col-lg-1">
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm-{{ essay.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
