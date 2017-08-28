@@ -50,9 +50,21 @@
                     <div class="col-lg-3 col-xs-6">
                         <label for="type">类型</label>
                         <select class="form-control" name="type" id="type">
-                          <option>小日记</option>
-                          <option>收获</option>
-                          <option>旅游</option>
+                            {% if contentType == '小日记' %}
+                                <option selected>小日记</option>
+                            {% else %}
+                                <option>小日记</option>
+                            {% endif %}
+                          {% if contentType == '收获' %}
+                                <option selected>收获</option>
+                            {% else %}
+                                <option>收获</option>
+                            {% endif %}
+                          {% if contentType == '旅游' %}
+                                <option selected>旅游</option>
+                            {% else %}
+                                <option>旅游</option>
+                            {% endif %}
                           <option>照片墙</option>
                         </select>
                     </div>

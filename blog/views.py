@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 import datetime
 from blog import models
 import os
+from django.http import JsonResponse
 # Create your views here.
 
 #负责页面的登录与退出动作
@@ -234,7 +235,9 @@ def addFiles(request, current_user):
             fileObject.author = current_user
             fileObject.file = File
             fileObject.save()
-            return HttpResponse('上传成功')
+            id = fileObject.id
+            #json用于返回一个类似字典的数据
+            return JsonResponse({"response":"上传成功","id":id,"path":fileObject.file.url})
         else:
             return HttpResponse('非法访问')
     else:
@@ -253,7 +256,8 @@ def addImages(request, current_user):
             imageObject.img = Image
             imageObject.introduction = introduction
             imageObject.save()
-            return HttpResponse('上传成功')
+            id = imageObject.id
+            return JsonResponse({"response":"上传成功","id":id,"path":imageObject.img.url})
         else:
             return HttpResponse('非法访问')
     else:

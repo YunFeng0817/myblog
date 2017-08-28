@@ -18,7 +18,7 @@
                 </div>
                 {% if user.name == id %}
                     <div class="col-lg-1">
-                        <button type="button" class="btn btn-warning btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target=".bs-example-modal-lg"><h5 style="margin: 0;"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                     </div>
                     <div class="col-lg-1">
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm-{{ essay.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>

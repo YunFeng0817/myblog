@@ -51,11 +51,12 @@
                 contentType:false,  // 告诉jquery不设置内容格式
                 success:function (data,status) {
                 {
-                    if(data=='上传成功')
+                    if(data.response=='上传成功')
                     {
-                        alert(data);
+                        alert(data.response);
                         var y=document.createElement('option');
-                        y.text = 'essays/'+File.name;
+                        y.text = data.path;
+                        y.value = data.id;
                         //给父窗口的label多选框添加刚刚新增的label
                         window.opener.document.getElementById('imageSelect').add(y,0);
                         window.close();
