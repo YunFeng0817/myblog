@@ -69,7 +69,7 @@ class comment(models.Model):
 
 
 class storge(models.Model):
-    title = models.CharField(max_length=100,unique=True,primary_key=False)     #文章标题
+    title = models.CharField(max_length=100,unique=False,primary_key=False)     #文章标题
     introduction = models.CharField(max_length=200,default='')   #文章简介
     author = models.ForeignKey(User,primary_key=False)     #一篇日志可以只能一个作者，但一个作者可以写多个日志 ，故用foreignkey    一本书由多个作者编写，一个作者可以写很多本书，故用manytomanyField
     writeDate = models.DateTimeField(auto_now_add=True)   #写作日期

@@ -26,7 +26,7 @@
 <!-- Large modal -->
 <!--用于写新的博客-->
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-  <form class="modal-dialog modal-lg" role="document" method="post" action="">
+  <form class="modal-dialog modal-lg" role="document" method="post" action="{% url 'blog:addEssay' id %}">
   {% csrf_token %}
     <div class="modal-content">
         <div class="modal-header">
@@ -38,12 +38,12 @@
                     <div class="col-lg-6 col-xs-6">
                         <div class="form-group">
                             <label for="title" class="DispearForPhoto">标题</label>
-                            <input type="text" class="form-control DispearForPhoto" name="title" required placeholder="标题" id="title">
+                            <input type="text" class="form-control DispearForPhoto" name="title"  placeholder="标题" id="title">
                         </div>
                     </div>
                     <div class="col-lg-3 col-xs-6">
                         <label for="type">类型</label>
-                        <select class="form-control" id="type">
+                        <select class="form-control" name="type" id="type">
                           <option>小日记</option>
                           <option>收获</option>
                           <option>旅游</option>
@@ -51,21 +51,21 @@
                         </select>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row DispearForPhoto">
                     <div class="col-lg-8 col-xs-8">
                         <label for="introduction">内容简介</label>
-                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" required></textarea>
+                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介" name="introduction" ></textarea>
                     </div>
                 </div>
                 <div class="row DispearForPhoto">
                     <div class="col-lg-2" id="label">
                         <label for="label">文章标签</label>
-                        <select multiple class="form-control" id="labelSelect">
+                        <select multiple name="labels" class="form-control" id="labelSelect">
                             {% for label in labels %}
                                 {% if label in essay.labels.all %}
-                                    <option selected>{{ label }}</option>
+                                    <option selected value="{{ label }}">{{ label }}</option>
                                 {% else %}
-                                    <option>{{ label }}</option>
+                                    <option value="{{ label }}">{{ label }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -79,19 +79,19 @@
                 <div class="row">
                     <div class="col-lg-10 col-xs-10 DispearForPhoto">
                         <label for="words">正文</label>
-                        <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文"></textarea>
+                        <textarea class="form-control" rows="6" id="words" placeholder="在这里写下正文" name="words"></textarea>
                         <h5 style="color: #737373">可以选填</h5>
                     </div>
                 </div>
                 <div class="row DispearForPhoto">
                     <div class="col-lg-8" id="label">
                         <label for="label">选择你想显示的html文件</label>
-                        <select multiple class="form-control" id="fileSelect">
+                        <select multiple class="form-control" id="fileSelect" name="files">
                             {% for file in files %}
                                 {% if file in essay.files.all %}
-                                    <option selected>{{ file }}</option>
+                                    <option selected value="{{ file.id }}">{{ file }}</option>
                                 {% else %}
-                                    <option>{{ file }}</option>
+                                    <option value="{{ file.id }}">{{ file }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -104,13 +104,13 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8" id="label">
-                        <label for="label">选择你想显示的图片</label>
-                        <select multiple class="form-control" id="imageSelect">
+                        <label for="label" id="imageHint">选择你想显示的图片</label>
+                        <select multiple class="form-control" id="imageSelect" name="images" size="10">
                             {% for image in images %}
                                 {% if image in essay.images.all %}
-                                    <option selected>{{ image }}</option>
+                                    <option selected value="{{ image.id }}">{{ image }}</option>
                                 {% else %}
-                                    <option>{{ image }}</option>
+                                    <option value="{{ image.id }}">{{ image }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -163,10 +163,12 @@
             if (type=='照片墙')
             {
                 $('.DispearForPhoto').css({"display":"none"});
+                $('#imageHint').text('添加你想上传的照片');
             }
             else
             {
                 $('.DispearForPhoto').css({"display":"block"});
+                $('#imageHint').text('选择你想显示的图片')
             }
         })
     })

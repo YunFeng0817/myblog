@@ -115,6 +115,7 @@ def photos(request,userName):
         current_user = User.objects.filter(name=userName)
         images = models.image.objects.filter(author=current_user).all()
         context['images'] = images
+        context = modelCommon(current_user, context)
         return render(request, 'blog/photos.html', context)
     else:
         return Response
@@ -243,6 +244,113 @@ def addImages(request, current_user):
             return HttpResponse('非法访问')
     else:
         return render(request, 'blog/addImages.html')
+
+def addEssay(request,userName):
+    if request.method =='POST':
+        username = User.objects.get(name=userName)
+        current_user = request.user
+        if username == current_user:
+            type = request.POST['type']
+            if type=="照片墙":
+                return redirect('/id='+userName+'/photo/')
+            else:
+                title = request.POST['title']
+                introduction = request.POST['introduction']
+                if type == "小日记":
+                    diary = models.diary.objects.create(author = current_user)
+                    diary.introduction = introduction
+                    diary.title = title
+                    #由于这些内容是可选的，所以要依次尝试
+                    try:
+                        labels = request.POST.getlist("labels")
+                        for label in labels:  #这是一个包含选项字符串的列表
+                            labelObject = models.label.objects.get(name=label)
+                            diary.labels.add(labelObject)
+                    except:
+                        pass
+                    try:
+                        words = request.POST['words']
+                        diary.words = words
+                    except:
+                        pass
+                    try:
+                        files = request.POST.getlist('files')
+                        for file in files:
+                            fileObject = models.file.objects.get(id=file)
+                            diary.files.add(fileObject)
+                    except:
+                        pass
+                    try:
+                        images = request.POST.getlist('images')
+                        for image in images:
+                            imageObject = models.image.objects.get(id=image)
+                            diary.images.add(imageObject)
+                    except:
+                        pass
+                    diary.save()
+                elif type == "收获":
+                    tech = models.tech()
+                    tech.author = current_user
+                    tech.introduction = introduction
+                    tech.title = title
+                    #由于这些内容是可选的，所以要依次尝试
+                    try:
+                        labels = request.POST['labels']
+                        tech.labels = labels
+                    except:
+                        pass
+                    try:
+                        words = request.POST['words']
+                        tech.words = words
+                    except:
+                        pass
+                    try:
+                        files = request.POST['files']
+                        tech.files = files
+                    except:
+                        pass
+                    try:
+                        images = request.POST['images']
+                        tech.images = images
+                    except:
+                        pass
+                    tech.save()
+                elif type == "旅行":
+                    trip = models.trip()
+                    trip.author = current_user
+                    trip.introduction = introduction
+                    trip.title = title
+                    #由于这些内容是可选的，所以要依次尝试
+                    try:
+                        labels = request.POST['labels']
+                        trip.labels = labels
+                    except:
+                        pass
+                    try:
+                        words = request.POST['words']
+                        trip.words = words
+                    except:
+                        pass
+                    try:
+                        files = request.POST['files']
+                        trip.files = files
+                    except:
+                        pass
+                    try:
+                        images = request.POST['images']
+                        trip.images = images
+                    except:
+                        pass
+                    trip.save()
+                else:
+                    return HttpResponse('表单类型错误')
+            return redirect('/id='+userName+'/')
+        else:
+            return HttpResponse('非法提交')
+    else:
+        return HttpResponse('只支持post请求')
+
+
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):
