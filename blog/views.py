@@ -120,6 +120,19 @@ def photos(request,userName):
     else:
         return Response
 
+def photo(request, userName,photoID):
+    Response = loginout(request)
+    context = {'contentType': '照片墙','contentURL':'photo', 'id': userName}
+    if Response == None:
+        current_user = User.objects.filter(name=userName)
+        images = models.image.objects.filter(author=current_user).all()
+        image = images.get(id=photoID)
+        context['image'] = image
+        context = modelCommon(current_user, context)
+        return render(request, 'blog/showPhoto.html', context)
+    else:
+        return Response
+
 #负责收获的链接页
 def techs(request,userName):
     Response = loginout(request)

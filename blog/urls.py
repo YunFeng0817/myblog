@@ -16,9 +16,10 @@ urlpatterns=[
     url(r'^id=([^/]+)/trip/$', trips, name='trips'),
     url(r'^id=([^/]+)/trip/(\d+)/$', trip, name='trip'),
     url(r'^id=([^/]+)/photo/$',photos,name='photos'),
+    url(r'^id=([^/]+)/photo/(\d+)/$',photo,name='photo'),
     url(r'^id=([^/]+)/label/add/$',addLabels,name='addLabel'),
     url(r'^id=([^/]+)/file/add/$',addFiles,name='addFile'),
     url(r'^id=([^/]+)/image/add/$',addImages,name='addImage'),
-    url(r'^id=([^/]+)/add/$',addEssay,name='addEssay')
+    url(r'^id=([^/]+)/add/$',addEssay,name='addEssay'),
 
 ]

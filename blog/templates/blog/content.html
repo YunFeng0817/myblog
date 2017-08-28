@@ -5,12 +5,14 @@
     <div class="panel inline-group">
     <ul class="list-inline">
         <li><a href="/id={{ id }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>主页</h4></a></li>
-        {% if essay.title %}
+        {% if essay.title or image %}
             <li><a href="/id={{ id }}/{{ contentURL }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>{{ contentType }}</h4></a></li>
         {% endif %}
         <li><a href="" style="text-decoration: none;color: grey"><h4><span class="glyphicon glyphicon-menu-left"></span>
             {% if essay.title %}
                 {{ essay.title }}
+            {% elif image %}
+                {{ image }}
             {% else %}
                 {{ contentType }}
             {% endif %}
