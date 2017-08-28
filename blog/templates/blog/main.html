@@ -1,16 +1,4 @@
-{% extends "blog/base.html" %}
-
-
-{% block head %}
-    {% load static %}
-{#    <link href="{% static "blog/main.css" %}" rel="stylesheet" media="screen">#}
-{% endblock %}
-
-
-{% block title %}
-
-{% endblock %}
-
+{% extends "blog/content.html" %}
 
 {#{% block login %}#}
 {#    {% if user.is_authenticated %}#}
@@ -27,7 +15,8 @@
 {#    {% endif %}#}
 {#{% endblock %}#}
 
-{% block content %}
+{% block diaries %}
+    {% load static %}
     <div class="center-block container-fluid" style="width: 50%">
         <div class="row">
             <div class="col-lg-6">
@@ -50,7 +39,7 @@
                             <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                         </div>
                         <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
-                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—diary-{{ diary.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
                 </div>
@@ -64,6 +53,35 @@
                 </div>
             </div>
             <br>
+            </div>
+            {#负责确认删除的模态框#}
+            <div class="modal fade bs-delete-essay-modal-sm—diary-{{ diary.id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="row">
+                            <form method="post" action="{% url "blog:deleteEssay" id %}">
+                                {% csrf_token %}
+                                <div class="col-md-offset-1">
+                                    <label><h4>你真的忍心删除我吗？(>﹏<)</h4></label>
+                                    <input type="text" hidden value="{{ diary.id }}" name="essayID">
+                                    <input type="text" hidden value="小日记" name="contentType">
+                                </div>
+                                <div class="col-md-offset-3 col-md-2">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">不了不了</button>
+                                </div>
+                                <div class="col-md-offset-1 col-md-2">
+                                    <button type="submit" class="btn btn-danger">我就是不要你了</button>
+                                </div>
+                            </form>
+                        </div>
+                          <div class="modal-footer">
+
+                          </div>
+                    </div>
+                  </div>
             </div>
         {% endfor %}
     <hr>
@@ -82,7 +100,7 @@
                             <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                         </div>
                         <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
-                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—tech-{{ tech.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
                 </div>
@@ -96,6 +114,35 @@
                 </div>
             </div>
             <br>
+            </div>
+            {#负责确认删除的模态框#}
+            <div class="modal fade bs-delete-essay-modal-sm—tech-{{ tech.id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="row">
+                            <form method="post" action="{% url "blog:deleteEssay" id %}">
+                                {% csrf_token %}
+                                <div class="col-md-offset-1">
+                                    <label><h4>你真的忍心删除我吗？(>﹏<)</h4></label>
+                                    <input type="text" hidden value="{{ tech.id }}" name="essayID">
+                                    <input type="text" hidden value="收获" name="contentType">
+                                </div>
+                                <div class="col-md-offset-3 col-md-2">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">不了不了</button>
+                                </div>
+                                <div class="col-md-offset-1 col-md-2">
+                                    <button type="submit" class="btn btn-danger">我就是不要你了</button>
+                                </div>
+                            </form>
+                        </div>
+                          <div class="modal-footer">
+
+                          </div>
+                    </div>
+                  </div>
             </div>
         {% endfor %}
     <hr>
@@ -114,7 +161,7 @@
                             <button type="button"  class="btn btn-warning btn-sm"><h5 style="margin: 0"><span class="glyphicon glyphicon-edit"></span>       修改</h5></button>
                         </div>
                         <div class="col-lg-1 col-xs-1 col-lg-offset-0 col-md-offset-3 col-xs-offset-3">
-                            <button type="button"  class="btn btn-danger btn-sm"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-delete-essay-modal-sm—trip-{{ trip.id }}"><h5 style="margin: 0;"><span class="glyphicon glyphicon-remove"></span>       删除</h5></button>
                         </div>
                     {% endif %}
                 </div>
@@ -128,6 +175,35 @@
                 </div>
             </div>
             <br>
+            </div>
+            {#负责确认删除的模态框#}
+            <div class="modal fade bs-delete-essay-modal-sm—trip-{{ trip.id }}" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                  <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="row">
+                            <form method="post" action="{% url "blog:deleteEssay" id %}">
+                                {% csrf_token %}
+                                <div class="col-md-offset-1">
+                                    <label><h4>你真的忍心删除我吗？(>﹏<)</h4></label>
+                                    <input type="text" hidden value="{{ trip.id }}" name="essayID">
+                                    <input type="text" hidden value="旅游" name="contentType">
+                                </div>
+                                <div class="col-md-offset-3 col-md-2">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">不了不了</button>
+                                </div>
+                                <div class="col-md-offset-1 col-md-2">
+                                    <button type="submit" class="btn btn-danger">我就是不要你了</button>
+                                </div>
+                            </form>
+                        </div>
+                          <div class="modal-footer">
+
+                          </div>
+                    </div>
+                  </div>
             </div>
         {% endfor %}
 {#        <h3>照片墙 <span class="label label-default">New</span></h3>#}

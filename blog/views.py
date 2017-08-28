@@ -380,8 +380,8 @@ def deletePhoto(request,username):
         current_user = request.user
         if current_user == userName:
             photoID = request.POST['photoID']
-            print(photoID)
             photoObject = models.image.objects.get(id=photoID)
+            #先删除对应路径的照片，后删除相应的数据库
             if os.path.isfile(photoObject.img.path):
                 os.remove(photoObject.img.path)
             photoObject.delete()
@@ -391,7 +391,32 @@ def deletePhoto(request,username):
     else:
         return HttpResponse('只支持post请求')
 
-
+#负责删除各类型的博客
+def deleteEssay(request,username):
+    if request.method =='POST':
+        userName = User.objects.get(name=username)
+        current_user = request.user
+        if current_user == userName:
+            contentType = request.POST['contentType']
+            essayID = request.POST['essayID']
+            if contentType == '小日记':
+                diaryObject = models.diary.objects.get(id=essayID)
+                diaryObject.delete()
+                return redirect('/id=' + username + '/diary/')
+            elif contentType == '收获':
+                techObject = models.tech.objects.get(id=essayID)
+                techObject.delete()
+                return redirect('/id=' + username + '/tech/')
+            elif contentType == '旅游':
+                tripObject = models.trip.objects.get(id=essayID)
+                tripObject.delete()
+                return redirect('/id=' + username + '/trip/')
+            else:
+                return HttpResponse('post请求类型错误')
+        else:
+            return HttpResponse('请登录后再操作！')
+    else:
+        return HttpResponse('只支持post请求')
 
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):

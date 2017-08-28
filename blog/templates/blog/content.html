@@ -4,7 +4,9 @@
 {% block content %}
     <div class="panel inline-group">
     <ul class="list-inline">
-        <li><a href="/id={{ id }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>主页</h4></a></li>
+        {% if contentType %}
+            <li><a href="/id={{ id }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>主页</h4></a></li>
+        {% endif %}
         {% if essay.title or image %}
             <li><a href="/id={{ id }}/{{ contentURL }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>{{ contentType }}</h4></a></li>
         {% endif %}
@@ -13,8 +15,10 @@
                 {{ essay.title }}
             {% elif image %}
                 {{ image }}
-            {% else %}
+            {% elif contentType %}
                 {{ contentType }}
+            {% else %}
+                主页
             {% endif %}
         </h4></a></li>
         {% if user.name == id %}
