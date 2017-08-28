@@ -21,5 +21,6 @@ urlpatterns=[
     url(r'^id=([^/]+)/file/add/$',addFiles,name='addFile'),
     url(r'^id=([^/]+)/image/add/$',addImages,name='addImage'),
     url(r'^id=([^/]+)/add/$',addEssay,name='addEssay'),
+    url(r'^id=([^/]+)/photo/delete/$',deletePhoto,name='deletePhoto'),
 
 ]

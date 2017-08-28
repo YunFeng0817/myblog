@@ -8,6 +8,7 @@ from django.utils.timezone import datetime
 from django.views.decorators.csrf import csrf_exempt
 import datetime
 from blog import models
+import os
 # Create your views here.
 
 #负责页面的登录与退出动作
@@ -370,6 +371,23 @@ def addEssay(request,userName):
             return redirect('/id='+userName+'/')
         else:
             return HttpResponse('非法提交')
+    else:
+        return HttpResponse('只支持post请求')
+
+def deletePhoto(request,username):
+    if request.method =='POST':
+        userName = User.objects.get(name=username)
+        current_user = request.user
+        if current_user == userName:
+            photoID = request.POST['photoID']
+            print(photoID)
+            photoObject = models.image.objects.get(id=photoID)
+            if os.path.isfile(photoObject.img.path):
+                os.remove(photoObject.img.path)
+            photoObject.delete()
+            return redirect('/id='+username+'/photo/')
+        else:
+            return HttpResponse('请登录后再操作！')
     else:
         return HttpResponse('只支持post请求')
 

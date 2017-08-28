@@ -9,17 +9,54 @@
           <div class="caption">
             <h3>图片简介</h3>
             <p>{{ image.introduction }}</p>
-            <p> <a href="#" class="btn btn-danger" role="button">删除</a>                                                                                                           <!--该过滤器将文件大小转化为人类可读的大小-->
-                <a tabindex="0"  class="btn btn-info" role="button" data-toggle="popover" data-html="true" data-trigger="focus" title="作者：{{ image.author.username }}" data-content=
+              <div class="row">
+                  <p>{% if user.name == id %}
+                        <!-- Small modal -->
+                      <div class="col-md-1">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bs-example-modal-sm">删除</button>
 
-                        "尺寸：{{ image.img.width }}px*{{ image.img.height }}px
-                        <br>
-                        大小：{{ image.img.size|filesizeformat }}
-                        <br>
-                        上传时间：{{ image.addDate }}
-                        " >
-                    图片信息</a>
-            </p>
+                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                          <div class="modal-dialog modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="row">
+                                    <form method="post" action="{% url "blog:deletePhoto" id %}">
+                                        {% csrf_token %}
+                                        <div class="col-md-offset-1">
+                                            <label><h4>你真的忍心删除我吗？(>﹏<)</h4></label>
+                                            <input type="text" hidden value="{{ image.id }}" name="photoID">
+                                        </div>
+                                        <div class="col-md-offset-3 col-md-2">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">不了不了</button>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-2">
+                                            <button type="submit" class="btn btn-danger">我就是不要你了</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                  <div class="modal-footer">
+
+                                  </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                        {% endif %}
+                        <div class="col-md-1">
+                            <a tabindex="0"  class="btn btn-info" role="button" data-toggle="popover" data-html="true" data-trigger="focus" title="作者：{{ image.author.username }}" data-content=
+
+                                "尺寸：{{ image.img.width }}px*{{ image.img.height }}px
+                                <br>
+                                大小：{{ image.img.size|filesizeformat }}    <!--该过滤器将文件大小转化为人类可读的大小-->
+                                <br>
+                                上传时间：{{ image.addDate }}
+                                " >
+                            图片信息</a>
+                        </div>
+                    </p>
+              </div>
           </div>
         </div>
       </div>
