@@ -289,14 +289,15 @@ def addEssay(request,userName):
                         pass
                     diary.save()
                 elif type == "收获":
-                    tech = models.tech()
-                    tech.author = current_user
+                    tech = models.tech.objects.create(author=current_user)
                     tech.introduction = introduction
                     tech.title = title
-                    #由于这些内容是可选的，所以要依次尝试
+                    # 由于这些内容是可选的，所以要依次尝试
                     try:
-                        labels = request.POST['labels']
-                        tech.labels = labels
+                        labels = request.POST.getlist("labels")
+                        for label in labels:  # 这是一个包含选项字符串的列表
+                            labelObject = models.label.objects.get(name=label)
+                            tech.labels.add(labelObject)
                     except:
                         pass
                     try:
@@ -305,25 +306,30 @@ def addEssay(request,userName):
                     except:
                         pass
                     try:
-                        files = request.POST['files']
-                        tech.files = files
+                        files = request.POST.getlist('files')
+                        for file in files:
+                            fileObject = models.file.objects.get(id=file)
+                            tech.files.add(fileObject)
                     except:
                         pass
                     try:
-                        images = request.POST['images']
-                        tech.images = images
+                        images = request.POST.getlist('images')
+                        for image in images:
+                            imageObject = models.image.objects.get(id=image)
+                            tech.images.add(imageObject)
                     except:
                         pass
                     tech.save()
-                elif type == "旅行":
-                    trip = models.trip()
-                    trip.author = current_user
+                elif type == "旅游":
+                    trip = models.trip.objects.create(author=current_user)
                     trip.introduction = introduction
                     trip.title = title
-                    #由于这些内容是可选的，所以要依次尝试
+                    # 由于这些内容是可选的，所以要依次尝试
                     try:
-                        labels = request.POST['labels']
-                        trip.labels = labels
+                        labels = request.POST.getlist("labels")
+                        for label in labels:  # 这是一个包含选项字符串的列表
+                            labelObject = models.label.objects.get(name=label)
+                            trip.labels.add(labelObject)
                     except:
                         pass
                     try:
@@ -332,13 +338,17 @@ def addEssay(request,userName):
                     except:
                         pass
                     try:
-                        files = request.POST['files']
-                        trip.files = files
+                        files = request.POST.getlist('files')
+                        for file in files:
+                            fileObject = models.file.objects.get(id=file)
+                            trip.files.add(fileObject)
                     except:
                         pass
                     try:
-                        images = request.POST['images']
-                        trip.images = images
+                        images = request.POST.getlist('images')
+                        for image in images:
+                            imageObject = models.image.objects.get(id=image)
+                            trip.images.add(imageObject)
                     except:
                         pass
                     trip.save()
