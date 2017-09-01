@@ -1,6 +1,6 @@
 #coding=UTF-8
-from django.shortcuts import render,redirect,HttpResponse
-from django.contrib.auth import authenticate, login
+from django.shortcuts import render,redirect,HttpResponse,Http404
+from django.contrib.auth import authenticate, login,update_session_auth_hash
 from django.contrib.auth import logout
 from users.models import User
 from django.utils.timezone import datetime
@@ -55,22 +55,25 @@ def main(request,userName):
     Response = loginout(request)
     context = {'id': userName}
     if Response==None:
-        current_user = User.objects.filter(name=userName)
-        time_point = datetime.datetime.now() - datetime.timedelta(days=7)
-        diaries = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)   # writeDate__gte表示筛选大于该时间的对象
-        if not diaries:  #判断查询集是否为空的用法
-            diaries = models.diary.objects.filter(author=current_user).order_by('-writeDate')[0:1]
-        context['diaries'] = diaries
-        techs = models.tech.objects.filter(author=current_user,writeDate__gte=time_point)
-        if not techs:
-            techs = models.tech.objects.filter(author=current_user).order_by('-writeDate')[0:1]
-        context['techs'] = techs
-        trips = models.trip.objects.filter(author=current_user,writeDate__gte=time_point)
-        if not trips:
-            trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
-        context['trips'] = trips
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/main.html',context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            time_point = datetime.datetime.now() - datetime.timedelta(days=7)
+            diaries = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)   # writeDate__gte表示筛选大于该时间的对象
+            if not diaries:  #判断查询集是否为空的用法
+                diaries = models.diary.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+            context['diaries'] = diaries
+            techs = models.tech.objects.filter(author=current_user,writeDate__gte=time_point)
+            if not techs:
+                techs = models.tech.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+            context['techs'] = techs
+            trips = models.trip.objects.filter(author=current_user,writeDate__gte=time_point)
+            if not trips:
+                trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
+            context['trips'] = trips
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/main.html',context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -84,11 +87,14 @@ def diaries(request,userName):
         # if str(current_user) != 'AnonymousUser':
         #     essay =models.diary.objects.filter(author=current_user)
         #     context['essays']=essay
-        current_user = User.objects.filter(name=userName)
-        essay = models.diary.objects.filter(author=current_user)
-        context['essays'] = essay
-        context = modelCommon(current_user,context)
-        return render(request, 'blog/essay_list.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            essay = models.diary.objects.filter(author=current_user)
+            context['essays'] = essay
+            context = modelCommon(current_user,context)
+            return render(request, 'blog/essay_list.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -103,12 +109,15 @@ def diary(request,userName,diaryID):
         #     essay = models.diary.objects.filter(author=current_user)
         #     essay = essay.get(id=diaryID)
         #     context['essay'] = essay
-        current_user = User.objects.filter(name=userName)
-        essay = models.diary.objects.filter(author=current_user)
-        essay = essay.get(id=diaryID)
-        context['essay'] = essay
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/essay.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            essay = models.diary.objects.filter(author=current_user)
+            essay = essay.get(id=diaryID)
+            context['essay'] = essay
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/essay.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -118,11 +127,14 @@ def photos(request,userName):
     Response = loginout(request)
     context = {'contentType': '照片墙','id':userName}
     if Response == None:
-        current_user = User.objects.filter(name=userName)
-        images = models.image.objects.filter(author=current_user).all()
-        context['images'] = images
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/photos.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            images = models.image.objects.filter(author=current_user).all()
+            context['images'] = images
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/photos.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -130,12 +142,16 @@ def photo(request, userName,photoID):
     Response = loginout(request)
     context = {'contentType': '照片墙','contentURL':'photo', 'id': userName}
     if Response == None:
-        current_user = User.objects.filter(name=userName)
-        images = models.image.objects.filter(author=current_user).all()
-        image = images.get(id=photoID)
-        context['image'] = image
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/showPhoto.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            images = models.image.objects.filter(author=current_user).all()
+            image = images.get(id=photoID)
+            context['image'] = image
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/showPhoto.html', context)
+        else:
+            raise Http404
+
     else:
         return Response
 
@@ -148,11 +164,14 @@ def techs(request,userName):
         # if str(current_user) != 'AnonymousUser':
         #     techs = models.tech.objects.filter(author=current_user)
         #     context['essays'] = techs
-        current_user = User.objects.filter(name=userName)
-        essay = models.tech.objects.filter(author=current_user)
-        context['essays'] = essay
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/essay_list.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            essay = models.tech.objects.filter(author=current_user)
+            context['essays'] = essay
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/essay_list.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -167,12 +186,15 @@ def tech(request,userName,techID):
         #     techs = models.tech.objects.filter(author=current_user)
         #     tech = techs.get(id=techID)
         #     context['essay'] = tech
-        current_user = User.objects.filter(name=userName)
-        essay = models.tech.objects.filter(author=current_user)
-        essay = essay.get(id=techID)
-        context['essay'] = essay
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/essay.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            essay = models.tech.objects.filter(author=current_user)
+            essay = essay.get(id=techID)
+            context['essay'] = essay
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/essay.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -183,11 +205,14 @@ def trips(request,userName):
     context =  {'contentType': '旅游','id':userName}
     if Response == None:
         if Response == None:
-            current_user = User.objects.filter(name=userName)
-            essay = models.trip.objects.filter(author=current_user)
-            context['essays'] = essay
-            context = modelCommon(current_user, context)
-        return render(request, 'blog/essay_list.html',context)
+            current_user = User.objects.get(name=userName)
+            if current_user:
+                essay = models.trip.objects.filter(author=current_user)
+                context['essays'] = essay
+                context = modelCommon(current_user, context)
+                return render(request, 'blog/essay_list.html',context)
+            else:
+                raise Http404
     else:
         return Response
 
@@ -201,12 +226,15 @@ def trip(request,userName,tripID):
         #     trips = models.trip.objects.filter(author=current_user)
         #     trip = trips.get(id=tripID)
         #     context['essay'] = trip
-        current_user = User.objects.filter(name=userName)
-        essay = models.trip.objects.filter(author=current_user)
-        essay = essay.get(id=tripID)
-        context['essay'] = essay
-        context = modelCommon(current_user, context)
-        return render(request, 'blog/essay.html', context)
+        current_user = User.objects.get(name=userName)
+        if current_user:
+            essay = models.trip.objects.filter(author=current_user)
+            essay = essay.get(id=tripID)
+            context['essay'] = essay
+            context = modelCommon(current_user, context)
+            return render(request, 'blog/essay.html', context)
+        else:
+            raise Http404
     else:
         return Response
 
@@ -365,6 +393,25 @@ def deleteEssay(request,username):
             return redirect('/id=' + username + '/'+essayType[contentType])
         else:
             return HttpResponse('请登录后再操作！')
+    else:
+        return HttpResponse('只支持post请求')
+
+def modifyPassword(request,username):
+    if request.method == 'POST':
+        oldPassword = request.POST['oldPassword']
+        user = request.user
+        userName = User.objects.get(name=username)
+        if user == userName:
+            if userName.check_password(oldPassword):
+                newPassword = request.POST['newPassword']
+                userName.set_password(newPassword)
+                userName.save()
+                update_session_auth_hash(request, userName)
+                return HttpResponse('修改成功')
+            else:
+                return HttpResponse('原密码错误')
+        else:
+            return HttpResponse('你在非法提交')
     else:
         return HttpResponse('只支持post请求')
 

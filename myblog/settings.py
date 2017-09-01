@@ -127,8 +127,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_URL = ''
+MEDIA_ROOT = 'E:\web_project/myblog/blog/static'
 
 #此段代码负责设置发送邮件认证的相关设置
 USERS_REGISTRATION_OPEN = True
