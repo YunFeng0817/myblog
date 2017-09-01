@@ -12,6 +12,9 @@ import os
 from django.http import JsonResponse
 # Create your views here.
 
+essayModel = {u'小日记':models.diary,u'收获':models.tech,u'旅游':models.trip}
+essayType = {u'小日记':'diary',u'收获':'tech',u'旅游':'trip'}
+
 #负责页面的登录与退出动作
 def loginout(request):
     if not request.user.is_authenticated():
@@ -278,156 +281,55 @@ def addEssay(request,username):
             else:
                 title = request.POST['title']
                 introduction = request.POST['introduction']
-                if type == "小日记":
-                    try:
-                        id = request.POST['ContentID']
-                        diary = models.diary.objects.get(id=id)
-                    except:
-                        diary = models.diary.objects.create(author = current_user)
-                    diary.introduction = introduction
-                    diary.title = title
-                    #由于这些内容是可选的，所以要依次尝试
-                    try:
-                        labels = request.POST.getlist("labels")
-                        for label in labels:  #这是一个包含选项字符串的列表
-                            labelObject = models.label.objects.get(name=label)
-                            if labelObject not in diary.labels.all():
-                                diary.labels.add(labelObject)
-                        for label in diary.labels.all():
-                            if label.name not in labels:
-                                diary.labels.remove(label)
-                    except:
-                        pass
-                    try:
-                        words = request.POST['words']
-                        diary.words = words
-                    except:
-                        pass
-                    try:
-                        files = request.POST.getlist('files')
-                        for file in files:
-                            fileObject = models.file.objects.get(id=file)
-                            if fileObject not in diary.files.all():
-                                diary.files.add(fileObject)
-                        for fileObject in diary.files.all():
-                            if str(fileObject.id) not in files:       #此处有坑  id不是字符串，而表单上传的是字符串，导致文件先上传后删除
-                                diary.files.remove(fileObject)
-                    except:
-                        pass
-                    try:
-                        images = request.POST.getlist('images')
-                        print(images)
-                        for image in images:
-                            imageObject = models.image.objects.get(id=image)
-                            if imageObject not in diary.images.all():
-                                diary.images.add(imageObject)
-                        for imageObject in diary.images.all():
-                            if str(imageObject.id) not in images:
-                                diary.images.remove(imageObject)
-                    except:
-                        pass
-                    diary.save()
-                    return redirect('/id='+username+'/diary/')
-                elif type == "收获":
-                    try:
-                        id = request.POST['ContentID']
-                        tech = models.tech.objects.get(id=id)
-                    except:
-                        tech = models.tech.objects.create(author = current_user)
-                    tech.introduction = introduction
-                    tech.title = title
-                    # 由于这些内容是可选的，所以要依次尝试
-                    try:
-                        labels = request.POST.getlist("labels")
-                        for label in labels:  #这是一个包含选项字符串的列表
-                            labelObject = models.label.objects.get(name=label)
-                            if labelObject not in tech.labels.all():
-                                tech.labels.add(labelObject)
-                        for label in tech.labels.all():
-                            if label.name not in labels:
-                                tech.labels.remove(label)
-                    except:
-                        pass
-                    try:
-                        words = request.POST['words']
-                        tech.words = words
-                    except:
-                        pass
-                    try:
-                        files = request.POST.getlist('files')
-                        for file in files:
-                            fileObject = models.file.objects.get(id=file)
-                            if fileObject not in tech.files.all():
-                                tech.files.add(fileObject)
-                        for fileObject in tech.files.all():
-                            if str(fileObject.id) not in files:
-                                tech.files.remove(fileObject)
-                    except:
-                        pass
-                    try:
-                        images = request.POST.getlist('images')
-                        for image in images:
-                            imageObject = models.image.objects.get(id=image)
-                            if imageObject not in tech.images.all():
-                                tech.images.add(imageObject)
-                        for imageObject in tech.images.all():
-                            if str(imageObject.id) not in images:
-                                tech.images.remove(imageObject)
-                    except:
-                        pass
-                    tech.save()
-                    return redirect('/id=' + username + '/tech/')
-                elif type == "旅游":
-                    try:
-                        id = request.POST['ContentID']
-                        trip = models.trip.objects.get(id=id)
-                    except:
-                        trip = models.trip.objects.create(author = current_user)
-                    trip.introduction = introduction
-                    trip.title = title
-                    # 由于这些内容是可选的，所以要依次尝试
-                    try:
-                        labels = request.POST.getlist("labels")
-                        for label in labels:  #这是一个包含选项字符串的列表
-                            labelObject = models.label.objects.get(name=label)
-                            if labelObject not in trip.labels.all():
-                                trip.labels.add(labelObject)
-                        for label in trip.labels.all():
-                            if label.name not in labels:
-                                trip.labels.remove(label)
-                    except:
-                        pass
-                    try:
-                        words = request.POST['words']
-                        trip.words = words
-                    except:
-                        pass
-                    try:
-                        files = request.POST.getlist('files')
-                        for file in files:
-                            fileObject = models.file.objects.get(id=file)
-                            if fileObject not in trip.files.all():
-                                trip.files.add(fileObject)
-                        for fileObject in trip.files.all():
-                            if str(fileObject.id) not in files:
-                                trip.files.remove(fileObject)
-                    except:
-                        pass
-                    try:
-                        images = request.POST.getlist('images')
-                        for image in images:
-                            imageObject = models.image.objects.get(id=image)
-                            if imageObject not in trip.images.all():
-                                trip.images.add(imageObject)
-                        for imageObject in trip.images.all():
-                            if str(imageObject.id) not in images:
-                                trip.images.remove(imageObject)
-                    except:
-                        pass
-                    trip.save()
-                    return redirect('/id=' + username + '/trip/')
-                else:
-                    return HttpResponse('表单类型错误')
+                try:
+                    id = request.POST['ContentID']
+                    diary = essayModel[type].objects.get(id=id)
+                except:
+                    diary = essayModel[type].objects.create(author = current_user)
+                diary.introduction = introduction
+                diary.title = title
+                #由于这些内容是可选的，所以要依次尝试
+                try:
+                    labels = request.POST.getlist("labels")
+                    for label in labels:  #这是一个包含选项字符串的列表
+                        labelObject = models.label.objects.get(name=label)
+                        if labelObject not in diary.labels.all():
+                            diary.labels.add(labelObject)
+                    for label in diary.labels.all():
+                        if label.name not in labels:
+                            diary.labels.remove(label)
+                except:
+                    pass
+                try:
+                    words = request.POST['words']
+                    diary.words = words
+                except:
+                    pass
+                try:
+                    files = request.POST.getlist('files')
+                    for file in files:
+                        fileObject = models.file.objects.get(id=file)
+                        if fileObject not in diary.files.all():
+                            diary.files.add(fileObject)
+                    for fileObject in diary.files.all():
+                        if str(fileObject.id) not in files:       #此处有坑  id不是字符串，而表单上传的是字符串，导致文件先上传后删除
+                            diary.files.remove(fileObject)
+                except:
+                    pass
+                try:
+                    images = request.POST.getlist('images')
+                    print(images)
+                    for image in images:
+                        imageObject = models.image.objects.get(id=image)
+                        if imageObject not in diary.images.all():
+                            diary.images.add(imageObject)
+                    for imageObject in diary.images.all():
+                        if str(imageObject.id) not in images:
+                            diary.images.remove(imageObject)
+                except:
+                    pass
+                diary.save()
+                return redirect('/id='+username+'/'+essayType[type])
         else:
             return HttpResponse('非法提交')
     else:
@@ -458,20 +360,9 @@ def deleteEssay(request,username):
         if current_user == userName:
             contentType = request.POST['contentType']
             essayID = request.POST['essayID']
-            if contentType == '小日记':
-                diaryObject = models.diary.objects.get(id=essayID)
-                diaryObject.delete()
-                return redirect('/id=' + username + '/diary/')
-            elif contentType == '收获':
-                techObject = models.tech.objects.get(id=essayID)
-                techObject.delete()
-                return redirect('/id=' + username + '/tech/')
-            elif contentType == '旅游':
-                tripObject = models.trip.objects.get(id=essayID)
-                tripObject.delete()
-                return redirect('/id=' + username + '/trip/')
-            else:
-                return HttpResponse('post请求类型错误')
+            essayObject = essayModel[contentType].objects.get(id=essayID)
+            essayObject.delete()
+            return redirect('/id=' + username + '/'+essayType[contentType])
         else:
             return HttpResponse('请登录后再操作！')
     else:
