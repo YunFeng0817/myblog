@@ -83,7 +83,7 @@
                                 {% if label in essay.labels.all %}
                                     <option selected value="{{ label }}">{{ label }}</option>
                                 {% else %}
-                                    <option value="{{ label }}">{{ label }}</option>
+                                    <option value="{{ label.id }}">{{ label }}</option>
                                 {% endif %}
                             {% endfor %}
                         </select>

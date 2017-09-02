@@ -37,11 +37,12 @@
             else{
                 $.ajax({url:'',type:'post',data:{'label':x},success:function (data,status) {
             {
-                if(data=='保存成功')
+                if(data.response=='保存成功')
                 {
-                    alert(data);
+                    alert(data.response);
                     var y=document.createElement('option');
                     y.text = x;
+                    y.value = data.id;
                     //给父窗口的label多选框添加刚刚新增的label
                     window.close();
                     window.opener.document.getElementById('labelSelect').add(y,0);

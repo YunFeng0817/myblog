@@ -71,6 +71,13 @@ def main(request,userName):
                 trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
             context['trips'] = trips
             context = modelCommon(current_user, context)
+            context['userJoin'] = current_user.date_joined
+            context['userLogin'] = current_user.last_login
+            try:
+                authorInformation = models.authInformation.objects.get(author=current_user)
+                context['author'] = authorInformation
+            except:
+                pass
             return render(request, 'blog/main.html',context)
         else:
             raise Http404
@@ -245,13 +252,15 @@ def addLabels(request,current_user):
         current_user = request.user
         if current_user==user:
             label = request.POST['label']
-            try:
+            labelObject = models.label.objects.filter(author=current_user,name=label)
+            if not labelObject:
                 labelObject = models.label()
                 labelObject.author = current_user
                 labelObject.name = label
                 labelObject.save()
-                return HttpResponse('保存成功')
-            except:
+                id = labelObject.id
+                return JsonResponse({"response": "保存成功", "id": id})
+            else:
                 return HttpResponse('此标签已存在')
         else:
             return HttpResponse('非法访问')
@@ -305,7 +314,7 @@ def addEssay(request,username):
         if userName == current_user:
             type = request.POST['type']
             if type=="照片墙":
-                return redirect('/id='+userName+'/photo/')
+                return redirect('/id='+username+'/photo/')
             else:
                 title = request.POST['title']
                 introduction = request.POST['introduction']
@@ -320,12 +329,12 @@ def addEssay(request,username):
                 try:
                     labels = request.POST.getlist("labels")
                     for label in labels:  #这是一个包含选项字符串的列表
-                        labelObject = models.label.objects.get(name=label)
+                        labelObject = models.label.objects.get(id=label)
                         if labelObject not in diary.labels.all():
                             diary.labels.add(labelObject)
-                    for label in diary.labels.all():
-                        if label.name not in labels:
-                            diary.labels.remove(label)
+                    for labelObject in diary.labels.all():
+                        if str(labelObject.id) not in labels:
+                            diary.labels.remove(labelObject)
                 except:
                     pass
                 try:

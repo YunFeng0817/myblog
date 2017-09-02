@@ -24,7 +24,7 @@ class file(models.Model):
 #这些是附属于各类型文章的标签
 class label(models.Model):
     author = models.ForeignKey(User,primary_key=False)
-    name = models.CharField(max_length=10, primary_key=True)    #此处有一个bug  如果两个用户想用同一个标签，则会冲突，待修改
+    name = models.CharField(max_length=10, primary_key=False)    #此处有一个bug  如果两个用户想用同一个标签，则会冲突，待修改
     addDate = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -112,3 +112,15 @@ class photo(models.Model):
 
     class Meta:
         ordering = ["-addDate"]
+
+#博主的相关信息
+class authInformation(models.Model):
+    avatar = models.ImageField(upload_to='blog/images/%Y_%m_%d/')     #头像
+    introduction = models.CharField(max_length=800)
+    author = models.OneToOneField(User,primary_key=True)
+    birthday = models.DateTimeField()
+    constellation = models.CharField(max_length=10)    #星座
+    labels = models.ManyToManyField(label,blank=True)
+
+    def __str__(self):
+        return self.author
