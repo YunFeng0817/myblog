@@ -270,7 +270,26 @@ $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
             var newPassword = $('#newPassword').val();
             var repeatPassword = $('#repeatPassword').val();
             var hint = $('#headerText');
-            $.ajax({url:'/id={{ id }}/changePass/',type:'post',data:{'oldPassword':oldPassword,'newPassword':repeatPassword},success:function (data,status) {
+            if(newPassword.length<=8)
+            {
+                hint.text('密码长度需大于8位');
+                hint.css({'color':'red',position:'relative',left:'-30px'});
+                hint.animate({left:"30px"},'slow');
+            }
+            else if(repeatPassword!=newPassword){
+                hint.text('两次输入的密码不一致');
+                hint.css({'color':'red',position:'relative',left:'-30px'});
+                hint.animate({left:"30px"},'slow');
+            }
+            else if(newPassword==oldPassword)
+            {
+                hint.text('不能与旧密码相同');
+                hint.css({'color':'red',position:'relative',left:'-30px'});
+                hint.animate({left:"30px"},'slow');
+            }
+            else
+            {
+                $.ajax({url:'/id={{ id }}/changePass/',type:'post',data:{'oldPassword':oldPassword,'newPassword':repeatPassword},success:function (data,status) {
                 if(data=='修改成功'){
                     hint.text('修改密码');
                     hint.css({'color':'black'});
@@ -279,9 +298,11 @@ $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
                 }
                 else{
                     hint.text(data);
-                    hint.css({'color':'red'});
+                    hint.css({'color':'red',position:'relative',left:'-30px'});
+                    hint.animate({left:"30px"},'slow');
                 }
-            },async:false});
+                },async:false});
+            }
         });
     });
 </script>
