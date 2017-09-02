@@ -74,7 +74,7 @@
 
         {% endif %}
                   <ul class="dropdown-menu">
-                    <li><a href=""><span class="glyphicon glyphicon-user"></span>     设置  </a></li>
+                    <li><a href="" data-toggle="modal" data-target="#userInformation"><span class="glyphicon glyphicon-user"></span>     设置  </a></li>
                     <li><a href="" data-toggle="modal" data-target="#modifyPassword"><span class="glyphicon glyphicon-edit"></span>      修改密码</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a href='' id="logout"><span class="glyphicon glyphicon-log-out"></span>     退出登录</a></li>
@@ -166,23 +166,45 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 id="headerText">设置信息</h3>
+        <h3>设置个人信息</h3>
       </div>
       <div class="modal-body">
-        <div class="form-group">
-            <label for="oddPassword">旧密码</label>
-            <input type="password" class="form-control" name="oldPassword" required placeholder="旧密码" id="oldPassword">
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-xs-6">
+                        <label for="username" class="DispearForPhoto">博客昵称</label>
+                        <input type="text" class="form-control DispearForPhoto" name="username"  placeholder="昵称" id="title" value={{ user.username }}>
+                        <br>
+                        <label for="introduction">自我简介</label>
+                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介吧" name="introduction" >{{ author.introduction }}</textarea>
+                    </div>
+                    <div class="col-lg-offset-2 col-lg-4 col-xs-6">
+                        <br><p style="color:#737373;">点击添加头像</p><br><br>
+                        <span style=" padding:20%;border: dotted 2px; color:#737373; " id="addImageButton"><span class="glyphicon glyphicon-plus"></span></span>
+                        <br><br><br>
+                        <input type="file" id="addImage" required style="display: none;">
+                    </div>
+                </div>
+                <br>
+                <div class="row DispearForPhoto">
+                    <div class="col-lg-3" id="label">
+                        <label for="label">身份标签</label>
+                        <select multiple name="labels" class="form-control" id="labelSelect">
+                            {% for label in labels %}
+                                {% if label in author.labels.all %}
+                                    <option selected value="{{ label.id }}">{{ label }}</option>
+                                {% else %}
+                                    <option value="{{ label.id }}">{{ label }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        <h6 style="color: #737373">按住 ”Control“，或者Mac上的 “Command”，可以选择多个。</h6>
+                    </div>
+                    <div class="col-lg-1 DispearForPhoto">
+                        <br><br><br>
+                        <a  onclick="open_win_label()"><span class="glyphicon glyphicon-plus"></span></a>
+                    </div>
             </div>
-            <div class="form-group">
-            <label for="newPassword">新密码</label>
-            <input type="password" class="form-control" name="password" required id="newPassword" placeholder="新密码">
-            </div>
-            <div class="form-group">
-            <label for="repeatPassword">请重复新密码</label>
-            <input type="password" class="form-control" name="password" required id="repeatPassword" placeholder="请重复新密码">
-            </div>
-            <br>
-      </div>
       <div class="modal-footer">
         <div class="row">
             <div class="col-lg-4 col-lg-offset-8">
@@ -192,9 +214,10 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </div>
-
+</div>
 
 <!--页脚部分-->
 <footer class="text-center " style="line-height: 20px;color: #9d9d9d ">
@@ -384,6 +407,12 @@ $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
             }
         });
     });
+
+    $(document).ready(function () {
+        $('#addImageButton').click(function () {
+            $('#addImage').slideToggle();
+        })
+    })
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>
 </html>

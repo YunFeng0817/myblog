@@ -37,6 +37,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h3 id="modelTitle">添加博客</h3>
         </div>
         <div class="modal-body">
             <div class="container-fluid">
@@ -81,7 +82,7 @@
                         <select multiple name="labels" class="form-control" id="labelSelect">
                             {% for label in labels %}
                                 {% if label in essay.labels.all %}
-                                    <option selected value="{{ label }}">{{ label }}</option>
+                                    <option selected value="{{ label.id }}">{{ label }}</option>
                                 {% else %}
                                     <option value="{{ label.id }}">{{ label }}</option>
                                 {% endif %}
@@ -183,11 +184,13 @@
             {
                 $('.DispearForPhoto').css({"display":"none"});
                 $('#imageHint').text('添加你想上传的照片');
+                $('#modelTitle').text('添加照片')   //修改模态框的标题
             }
             else
             {
                 $('.DispearForPhoto').css({"display":"block"});
                 $('#imageHint').text('选择你想显示的图片')
+                $('#modelTitle').text('添加博客')      //修改模态框的标题
             }
         })
     });

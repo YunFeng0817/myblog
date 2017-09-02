@@ -16,7 +16,7 @@ essayModel = {u'小日记':models.diary,u'收获':models.tech,u'旅游':models.t
 essayType = {u'小日记':'diary',u'收获':'tech',u'旅游':'trip'}
 
 #负责页面的登录与退出动作
-def loginout(request):
+def loginout(request,context):
     if not request.user.is_authenticated():
         if request.method == "POST":
             blogID = request.POST['blogID']
@@ -26,6 +26,11 @@ def loginout(request):
                 if user.is_active:
                     login(request, user)
                     request.session.set_expiry(1800)  #!!!设置session的过期时长 ，整数表示几秒后过期，0 表示在用户的浏览器关闭时过期，none表示永不过期
+                    context['user'] = user
+                    try:
+                        context['author'] = models.authInformation.objects.get(author=user)
+                    except:
+                        pass
                 else:
                     #messages.warning(request, '用户无效')
                     return HttpResponse('用户无效')
@@ -37,6 +42,7 @@ def loginout(request):
             flag = request.POST['logout']
             if flag=='true':
                 logout(request)
+                context['user'] = None
 
 
 def modelCommon(current_user,context):
@@ -52,8 +58,8 @@ def modelCommon(current_user,context):
 #负责主页面的界面
 #此时也有坑  函数loginout()结束后还会继续执行之后的return render() ，导致页面密码输入错误不会得到错误提醒
 def main(request,userName):
-    Response = loginout(request)
     context = {'id': userName}
+    Response = loginout(request,context)
     if Response==None:
         current_user = User.objects.get(name=userName)
         if current_user:
@@ -74,8 +80,7 @@ def main(request,userName):
             context['userJoin'] = current_user.date_joined
             context['userLogin'] = current_user.last_login
             try:
-                authorInformation = models.authInformation.objects.get(author=current_user)
-                context['author'] = authorInformation
+                context['author'] = models.authInformation.objects.get(author=current_user)
             except:
                 pass
             return render(request, 'blog/main.html',context)
@@ -86,8 +91,8 @@ def main(request,userName):
 
 #负责小日记的链接页
 def diaries(request,userName):
-    Response = loginout(request)
-    context = {'contentType':'小日记','id':userName}
+    context = {'contentType': '小日记', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         #获取当前登录的用户！！！
         # current_user = request.user
@@ -108,8 +113,8 @@ def diaries(request,userName):
 
 #负责小日记具体的某一篇日记的页面
 def diary(request,userName,diaryID):
-    Response = loginout(request)
-    context = {'contentType': '小日记','contentURL':'diary','id':userName}
+    context = {'contentType': '小日记', 'contentURL': 'diary', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         # current_user = request.user
         # if str(current_user) != 'AnonymousUser':
@@ -131,8 +136,8 @@ def diary(request,userName,diaryID):
 
 #负责显示照片的页面
 def photos(request,userName):
-    Response = loginout(request)
-    context = {'contentType': '照片墙','id':userName}
+    context = {'contentType': '照片墙', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         current_user = User.objects.get(name=userName)
         if current_user:
@@ -146,8 +151,8 @@ def photos(request,userName):
         return Response
 
 def photo(request, userName,photoID):
-    Response = loginout(request)
-    context = {'contentType': '照片墙','contentURL':'photo', 'id': userName}
+    context = {'contentType': '照片墙', 'contentURL': 'photo', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         current_user = User.objects.get(name=userName)
         if current_user:
@@ -164,8 +169,8 @@ def photo(request, userName,photoID):
 
 #负责收获的链接页
 def techs(request,userName):
-    Response = loginout(request)
-    context = {'contentType': '收获','id':userName}
+    context = {'contentType': '收获', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         # current_user = request.user
         # if str(current_user) != 'AnonymousUser':
@@ -185,8 +190,8 @@ def techs(request,userName):
 
 #负责具体某一篇的收获内容博客
 def tech(request,userName,techID):
-    Response = loginout(request)
-    context = {'contentType': '收获','contentURL':'tech', 'essayTitle': 'django框架','id':userName}
+    context = {'contentType': '收获', 'contentURL': 'tech', 'essayTitle': 'django框架', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         # current_user = request.user
         # if str(current_user) != 'AnonymousUser':
@@ -208,8 +213,8 @@ def tech(request,userName,techID):
 
 #负责旅游的日记链接
 def trips(request,userName):
-    Response = loginout(request)
-    context =  {'contentType': '旅游','id':userName}
+    context = {'contentType': '旅游', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         if Response == None:
             current_user = User.objects.get(name=userName)
@@ -225,8 +230,8 @@ def trips(request,userName):
 
 #负责具体的某一篇旅游记录
 def trip(request,userName,tripID):
-    Response = loginout(request)
-    context = {'contentType': '旅游','contentURL':'trip','id':userName}
+    context = {'contentType': '旅游', 'contentURL': 'trip', 'id': userName}
+    Response = loginout(request,context)
     if Response == None:
         # current_user = request.user
         # if str(current_user) != 'AnonymousUser':
