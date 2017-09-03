@@ -440,6 +440,10 @@ def addAuthorInformation(request,username):
                 authorObject = models.authInformation.objects.create(author=userName)
             try:
                 avatar = request.FILES['avatar']
+                if authorObject.avatar:
+                    if os.path.isfile(authorObject.avatar.path):
+                        print('remove')
+                        os.remove(authorObject.avatar.path)
                 authorObject.avatar = avatar
             except:
                 pass
@@ -457,6 +461,7 @@ def addAuthorInformation(request,username):
                     authorObject.labels.remove(labelObject)
             birthday = request.POST['birthday']
             authorObject.birthday = birthday
+            authorObject.constellation = constellation(birthday)
             authorObject.save()
             userName.save()
             return redirect('/id='+username+'/')
@@ -464,6 +469,23 @@ def addAuthorInformation(request,username):
             return redirect('/id='+username+'/')
     else:
         return HttpResponse(u'只支持post请求')
+
+#负责从生日转换出对应的星座
+def constellation(birthday):
+    con = ['水平座','双鱼座','牡羊座','金牛座','双子座','巨蟹座','狮子座','处女座','天称座','天蝎座','射手座','摩羯座']
+    divDate = [21,19,21,21,22,22,23,24,23,24,23,22]
+    month = int(birthday[5:7])
+    day = int(birthday[8:10])
+    if day<divDate[month-1]:
+        if month==1:
+            return con[11]
+        else:
+            return con[month-2]
+    else:
+        return con[month-1]
+
+
+
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):
 #     if request.method=="POST":
