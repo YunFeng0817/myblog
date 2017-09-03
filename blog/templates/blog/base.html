@@ -16,6 +16,7 @@
     {% load staticfiles %}
     <!-- Bootstrap -->
     <link href="{% static "blog/bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" media="screen">
+    <link href="{% static "blog/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" %}" rel="stylesheet" media="screen">
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -170,26 +171,28 @@
       </div>
       <div class="modal-body">
         <div class="container-fluid">
+        <form method="post" action="{% url 'blog:addAuthorInformation' id %}" enctype="multipart/form-data">
+        {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-6 col-xs-6">
                         <label for="username" class="DispearForPhoto">博客昵称</label>
-                        <input type="text" class="form-control DispearForPhoto" name="username"  placeholder="昵称" id="title" value={{ user.username }}>
+                        <input type="text" class="form-control DispearForPhoto" name="username"  placeholder="昵称" id="title" required value={{ user.username }}>
                         <br>
                         <label for="introduction">自我简介</label>
-                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介吧" name="introduction" >{{ author.introduction }}</textarea>
+                        <textarea class="form-control" rows="3" id="introduction" placeholder="在这里写下你的简介吧" name="introduction" required >{{ author.introduction }}</textarea>
                     </div>
                     <div class="col-lg-offset-2 col-lg-4 col-xs-6">
                         <br><p style="color:#737373;">点击添加头像</p><br><br>
                         <span style=" padding:20%;border: dotted 2px; color:#737373; " id="addImageButton"><span class="glyphicon glyphicon-plus"></span></span>
                         <br><br><br>
-                        <input type="file" id="addImage" required style="display: none;">
+                        <input type="file" id="addImage" name="avatar" style="display: none;">
                     </div>
                 </div>
                 <br>
                 <div class="row DispearForPhoto">
-                    <div class="col-lg-3" id="label">
+                    <div class="col-lg-4" id="label">
                         <label for="label">身份标签</label>
-                        <select multiple name="labels" class="form-control" id="labelSelect">
+                        <select multiple name="labels" class="form-control" id="identityLabelSelect" required>
                             {% for label in labels %}
                                 {% if label in author.labels.all %}
                                     <option selected value="{{ label.id }}">{{ label }}</option>
@@ -204,15 +207,25 @@
                         <br><br><br>
                         <a  onclick="open_win_label()"><span class="glyphicon glyphicon-plus"></span></a>
                     </div>
+                    <div class="form-group col-lg-7">
+                        <label for="dtp_input2" class=" control-label">你的生日：</label>
+                        <div class="input-group date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                            <input class="form-control" size="10" type="text" value="{{ author.birthday |date:'Y-m-d'}}" readonly required name="birthday">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        </div>
+				        <input type="hidden" id="dtp_input2" value="" /><br/>
+                    </div>
             </div>
       <div class="modal-footer">
         <div class="row">
             <div class="col-lg-4 col-lg-offset-8">
                 <button type="button" class="btn btn-primary " data-dismiss="modal" aria-label="Close">取消</button>
-                <button type="submit"  class="btn btn-primary " id="changePassword">确认</button>
+                <button type="submit"  class="btn btn-primary " id="changeInformation">确认</button>
             </div>
         </div>
       </div>
+    </form>
     </div>
     </div>
   </div>
@@ -236,6 +249,8 @@
 
 
 <script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
+<script type="text/javascript" src="{% static "blog/bootstrap-datetimepicker/bootstrap-datetimepicker.js" %}" charset="UTF-8"></script>
+<script type="text/javascript" src="{% static "blog/bootstrap-datetimepicker/bootstrap-datetimepicker.fr.js" %}" charset="UTF-8"></script>
 <script type="text/javascript">
     //这一段负责导航栏的active动态效果  此段不会无效
 {#$(document).ready(function () {#}
@@ -244,7 +259,6 @@
 {#    $('ul.nav:first>li').css("background-color","rgba(0,0,0,0)");#}
 {#    $(this).css("background-color","rgb(13,129,189)");#}
 {#    });#}
-
 
 
  //这一段负责导航栏的active动态效果
@@ -412,7 +426,21 @@ $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
         $('#addImageButton').click(function () {
             $('#addImage').slideToggle();
         })
-    })
+    });
+    $('.form_date').datetimepicker({
+        language:  'zh-cn',
+        weekStart: 1,
+        todayBtn:  0,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 4,
+		minView: 2,
+		forceParse: 0
+    }
+    );
+    $('.form_date:first').datetimepicker(
+      'setStartDate','1960-01-01'
+    );
 </script>
 <script src="{% static "blog/bootstrap/js/bootstrap.min.js"%}"></script>
 </html>

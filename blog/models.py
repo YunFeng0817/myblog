@@ -118,9 +118,9 @@ class authInformation(models.Model):
     avatar = models.ImageField(upload_to='blog/images/%Y_%m_%d/')     #头像
     introduction = models.CharField(max_length=800)
     author = models.OneToOneField(User,primary_key=True)
-    birthday = models.DateTimeField()
+    birthday = models.DateField()
     constellation = models.CharField(max_length=10)    #星座
     labels = models.ManyToManyField(label,blank=True)
 
     def __str__(self):
-        return self.author
+        return self.author.username

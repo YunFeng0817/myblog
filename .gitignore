@@ -9,3 +9,7 @@ users/__pycache__/
 users/migrations/0001_initial.py
 users/migrations/__pycache__/
 users/templatetags/__pycache__/
+blog/migrations/0002_auto_20170903_1539.py
+blog/static/blog/images/2017_09_03/
+blog/migrations0002_auto_20170903_1539.py
+blog/images

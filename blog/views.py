@@ -390,9 +390,9 @@ def deletePhoto(request,username):
             photoObject.delete()
             return redirect('/id='+username+'/photo/')
         else:
-            return HttpResponse('请登录后再操作！')
+            return HttpResponse(u'请登录后再操作！')
     else:
-        return HttpResponse('只支持post请求')
+        return HttpResponse(u'只支持post请求')
 
 #负责删除各类型的博客
 def deleteEssay(request,username):
@@ -406,9 +406,9 @@ def deleteEssay(request,username):
             essayObject.delete()
             return redirect('/id=' + username + '/'+essayType[contentType])
         else:
-            return HttpResponse('请登录后再操作！')
+            return HttpResponse(u'请登录后再操作！')
     else:
-        return HttpResponse('只支持post请求')
+        return HttpResponse(u'只支持post请求')
 
 def modifyPassword(request,username):
     if request.method == 'POST':
@@ -421,14 +421,49 @@ def modifyPassword(request,username):
                 userName.set_password(newPassword)
                 userName.save()
                 update_session_auth_hash(request, userName)
-                return HttpResponse('修改成功')
+                return HttpResponse(u'修改成功')
             else:
-                return HttpResponse('原密码错误')
+                return HttpResponse(u'原密码错误')
         else:
-            return HttpResponse('你在非法提交')
+            return redirect('/id='+username+'/')
     else:
-        return HttpResponse('只支持post请求')
+        return HttpResponse(u'只支持post请求')
 
+def addAuthorInformation(request,username):
+    if request.method == 'POST':
+        user = request.user
+        userName = User.objects.get(name=username)
+        if user == userName:
+            try:
+                authorObject = models.authInformation.objects.get(author=userName)
+            except:
+                authorObject = models.authInformation.objects.create(author=userName)
+            try:
+                avatar = request.FILES['avatar']
+                authorObject.avatar = avatar
+            except:
+                pass
+            introduction = request.POST['introduction']
+            blogName = request.POST['username']
+            userName.username = blogName
+            authorObject.introduction = introduction
+            labels = request.POST.getlist("labels")
+            for label in labels:  # 这是一个包含选项字符串的列表
+                labelObject = models.label.objects.get(id=label)
+                if labelObject not in authorObject.labels.all():
+                    authorObject.labels.add(labelObject)
+            for labelObject in authorObject.labels.all():
+                if str(labelObject.id) not in labels:
+                    authorObject.labels.remove(labelObject)
+            birthday = request.POST['birthday']
+            authorObject.birthday = birthday
+            authorObject.save()
+            userName.save()
+            return redirect('/id='+username+'/')
+        else:
+            return redirect('/id='+username+'/')
+    else:
+        return HttpResponse(u'只支持post请求')
 #负责登录的动作 已合并到了def main中了
 # def loginAction(request):
 #     if request.method=="POST":
