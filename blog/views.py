@@ -76,6 +76,10 @@ def main(request,userName):
             if not trips:
                 trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
             context['trips'] = trips
+            try:
+                context['author'] = models.authInformation.objects.get(author=current_user)
+            except:
+                pass
             context = modelCommon(current_user, context)
             context['userJoin'] = current_user.date_joined
             context['userLogin'] = current_user.last_login
@@ -483,7 +487,7 @@ def constellation(birthday):
 def search(request,userName):
     if request.method == 'POST':
         context = {'id': userName}
-        current_user = User.objects.get(author=userName)
+        current_user = User.objects.get(name=userName)
         try:
             context['author'] = models.authInformation.objects.get(author=userName)
         except:
@@ -492,21 +496,45 @@ def search(request,userName):
         context['userJoin'] = current_user.date_joined
         context['userLogin'] = current_user.last_login
         content = request.POST['search']
-        diaries = list(models.diary.objects.filter(title__icontains=content))
-        diaries.append(list(models.diary.objects.filter(introduction__icontains=content)))
-        diaries.append(list(models.diary.objects.filter(words__icontains=content)))
-        diaries.append(list(models.diary.objects.filter(writeDate__icontains=content)))
-        context['diaries'] = diaries
-        techs = list(models.tech.objects.filter(title__icontains=content))
-        techs.append(list(models.tech.objects.filter(introduction__icontains=content)))
-        techs.append(list(models.tech.objects.filter(words__icontains=content)))
-        techs.append(list(models.tech.objects.filter(writeDate__icontains=content)))
-        context['techs'] = techs
-        trips = list(models.trip.objects.filter(title__icontains=content))
-        trips.append(list(models.trip.objects.filter(introduction__icontains=content)))
-        trips.append(list(models.trip.objects.filter(words__icontains=content)))
-        trips.append(list(models.trip.objects.filter(writeDate__icontains=content)))
-        context['trips'] = trips
+        diaries=[]
+        if list(models.diary.objects.filter(title__icontains=content)) !=[]:
+            diaries = list(models.diary.objects.filter(title__icontains=content))
+        if list(models.diary.objects.filter(introduction__icontains=content)) != []:
+            diaries.append(list(models.diary.objects.filter(introduction__icontains=content)))
+        if list(models.diary.objects.filter(words__icontains=content))!=[]:
+            diaries.append(list(models.diary.objects.filter(words__icontains=content)))
+        if list(models.diary.objects.filter(writeDate__icontains=content))!=[]:
+            diaries.append(list(models.diary.objects.filter(writeDate__icontains=content)))
+        try:
+            context['diaries'] = diaries
+        except:
+            pass
+        techs = []
+        if list(models.tech.objects.filter(title__icontains=content))!=[]:
+            techs = list(models.tech.objects.filter(title__icontains=content))
+        if list(models.tech.objects.filter(introduction__icontains=content))!=[]:
+            techs.append(list(models.tech.objects.filter(introduction__icontains=content)))
+        if list(models.tech.objects.filter(words__icontains=content)) !=[]:
+            techs.append(list(models.tech.objects.filter(words__icontains=content)))
+        if list(models.tech.objects.filter(writeDate__icontains=content))!=[]:
+            techs.append(list(models.tech.objects.filter(writeDate__icontains=content)))
+        try:
+            context['techs'] = techs
+        except:
+            pass
+        trips = []
+        if list(models.trip.objects.filter(title__icontains=content)) != []:
+            trips = list(models.trip.objects.filter(title__icontains=content))
+        if list(models.trip.objects.filter(introduction__icontains=content)) != []:
+            trips.append(list(models.trip.objects.filter(introduction__icontains=content)))
+        if list(models.trip.objects.filter(words__icontains=content)) != []:
+            trips.append(list(models.trip.objects.filter(words__icontains=content)))
+        if list(models.trip.objects.filter(writeDate__icontains=content)) != []:
+            trips.append(list(models.trip.objects.filter(writeDate__icontains=content)))
+        try:
+            context['trips'] = trips
+        except:
+            pass
         return render(request,'blog/main.html',context)
     else:
         return HttpResponse('支只持post请求')

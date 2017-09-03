@@ -358,6 +358,7 @@ $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
                 url: '/id={{ id }}/search/', type: 'post', data: {'search': search}, success: function (data, status) {
                     if (data.length > 10) {
                         $('html').html(data);       //刷新后字体会变小的bug
+{#                        window.location.reload(data);#}
                     }
                     else {
                         alert(data);
