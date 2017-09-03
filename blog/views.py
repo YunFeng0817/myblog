@@ -79,10 +79,6 @@ def main(request,userName):
             context = modelCommon(current_user, context)
             context['userJoin'] = current_user.date_joined
             context['userLogin'] = current_user.last_login
-            try:
-                context['author'] = models.authInformation.objects.get(author=current_user)
-            except:
-                pass
             return render(request, 'blog/main.html',context)
         else:
             raise Http404
@@ -483,6 +479,37 @@ def constellation(birthday):
             return con[month-2]
     else:
         return con[month-1]
+
+def search(request,userName):
+    if request.method == 'POST':
+        context = {'id': userName}
+        current_user = User.objects.get(author=userName)
+        try:
+            context['author'] = models.authInformation.objects.get(author=userName)
+        except:
+            pass
+        context = modelCommon(current_user, context)
+        context['userJoin'] = current_user.date_joined
+        context['userLogin'] = current_user.last_login
+        content = request.POST['search']
+        diaries = list(models.diary.objects.filter(title__icontains=content))
+        diaries.append(list(models.diary.objects.filter(introduction__icontains=content)))
+        diaries.append(list(models.diary.objects.filter(words__icontains=content)))
+        diaries.append(list(models.diary.objects.filter(writeDate__icontains=content)))
+        context['diaries'] = diaries
+        techs = list(models.tech.objects.filter(title__icontains=content))
+        techs.append(list(models.tech.objects.filter(introduction__icontains=content)))
+        techs.append(list(models.tech.objects.filter(words__icontains=content)))
+        techs.append(list(models.tech.objects.filter(writeDate__icontains=content)))
+        context['techs'] = techs
+        trips = list(models.trip.objects.filter(title__icontains=content))
+        trips.append(list(models.trip.objects.filter(introduction__icontains=content)))
+        trips.append(list(models.trip.objects.filter(words__icontains=content)))
+        trips.append(list(models.trip.objects.filter(writeDate__icontains=content)))
+        context['trips'] = trips
+        return render(request,'blog/main.html',context)
+    else:
+        return HttpResponse('支只持post请求')
 
 
 

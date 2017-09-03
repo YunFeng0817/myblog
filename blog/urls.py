@@ -25,4 +25,5 @@ urlpatterns=[
     url(r'^id=([^/]+)/essay/delete/$',deleteEssay,name='deleteEssay'),
     url(r'^id=([^/]+)/changePass/$',modifyPassword,name='modifyPassword'),
     url(r'^id=([^/]+)/information/$',addAuthorInformation,name='addAuthorInformation'),
+    url(r'^id=([^/]+)/search/$',search,name='search'),
 ]
