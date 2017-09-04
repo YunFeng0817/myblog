@@ -1,0 +1,12 @@
+[uwsgi]
+
+chdir=/home/android/myblog
+module=myblog.wsgi
+
+master=true
+processes=3
+socket=/home/android/myblog/myblog.sock
+chmod-socket=666
+
+deamonize=/var/log/uwsgi_myblog.log
+pidfile=/tmp/myblog.pid

@@ -24,9 +24,9 @@ ESSAYS_DIR = os.path.join(BASE_DIR,'blog/static/')
 SECRET_KEY = 'hv&z1qabnuhukg!2a%putv+40z*bbu6o(6-2cmguxn4aj^v76p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1','192.168.199.161']
 
 
 # Application definition
