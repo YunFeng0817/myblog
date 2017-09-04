@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-SESSION_ENGINE='django.contrib.sessions.backends.cache'
+#SESSION_ENGINE='django.contrib.sessions.backends.cache'
 
 #使用django-users2-0.2.1替换系统原来的User模版
 ROOT_URLCONF = 'myblog.urls'

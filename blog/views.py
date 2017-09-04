@@ -25,7 +25,7 @@ def loginout(request,context):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    request.session.set_expiry(None)  #!!!设置session的过期时长 ，整数表示几秒后过期，0 表示在用户的浏览器关闭时过期，none表示永不过期
+                    request.session.set_expiry(1800)  #!!!设置session的过期时长 ，整数表示几秒后过期，0 表示在用户的浏览器关闭时过期，none表示永不过期
                     context['user'] = user
                     try:
                         context['author'] = models.authInformation.objects.get(author=user)
@@ -64,15 +64,15 @@ def main(request,userName):
         current_user = User.objects.get(name=userName)
         if current_user:
             time_point = datetime.datetime.now() - datetime.timedelta(days=7)
-            diaries = models.diary.objects.filter(author=current_user)   # writeDate__gte表示筛选大于该时间的对象
+            diaries = models.diary.objects.filter(author=current_user,writeDate__gte=time_point)   # writeDate__gte表示筛选大于该时间的对象
             if not diaries:  #判断查询集是否为空的用法
                 diaries = models.diary.objects.filter(author=current_user).order_by('-writeDate')[0:1]
             context['diaries'] = diaries
-            techs = models.tech.objects.filter(author=current_user)
+            techs = models.tech.objects.filter(author=current_user,writeDate__gte=time_point)
             if not techs:
                 techs = models.tech.objects.filter(author=current_user).order_by('-writeDate')[0:1]
             context['techs'] = techs
-            trips = models.trip.objects.filter(author=current_user)
+            trips = models.trip.objects.filter(author=current_user,writeDate__gte=time_point)
             if not trips:
                 trips = models.trip.objects.filter(author=current_user).order_by('-writeDate')[0:1]
             context['trips'] = trips
