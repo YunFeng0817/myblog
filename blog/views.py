@@ -25,7 +25,7 @@ def loginout(request,context):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    request.session.set_expiry(1800)  #!!!设置session的过期时长 ，整数表示几秒后过期，0 表示在用户的浏览器关闭时过期，none表示永不过期
+                    request.session.set_expiry(None)  #!!!设置session的过期时长 ，整数表示几秒后过期，0 表示在用户的浏览器关闭时过期，none表示永不过期
                     context['user'] = user
                     try:
                         context['author'] = models.authInformation.objects.get(author=user)
