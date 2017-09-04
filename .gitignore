@@ -11,3 +11,4 @@ users/templatetags/__pycache__/
 blog/migrations/0002_auto_20170903_1539.py
 blog/static/blog/images/
 blog/migrations0002_auto_20170903_1539.py
+!/blog/static/essays/
