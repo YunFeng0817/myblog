@@ -23,10 +23,24 @@ ESSAYS_DIR = os.path.join(BASE_DIR,'upLoad')   #将upLoad作为templates文件�
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'hv&z1qabnuhukg!2a%putv+40z*bbu6o(6-2cmguxn4aj^v76p'
 
+# For security.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+SECURE_BROWSER_XSS_FILTER = True
+
+SECURE_SSL_REDIRECT = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+
+X_FRAME_OPTIONS = "DENY"
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1','192.168.199.161','192.168.43.1']
+ALLOWED_HOSTS = ['fy.nickyc975.me']
 
 
 # Application definition
