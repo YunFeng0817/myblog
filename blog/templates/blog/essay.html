@@ -23,10 +23,10 @@
                 </blockquote>
             {% endif %}
           {% for image in essay.images.all %}
-              <img class="img-responsive" src="{{ image.img.path }}">
+              <img class="img-responsive" src="{{ image.img.url }}">
           {% endfor %}
           {% for file in essay.files.all %}
-              {% include file %}
+              {% include file.file.url %}
           {% endfor %}
 {#          {% include essay.file %}#}
 {#          用来将别的网页嵌入到本网页中的语法#}

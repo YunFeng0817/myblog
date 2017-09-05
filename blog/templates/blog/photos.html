@@ -7,7 +7,7 @@
             {% for image in images %}
               <div class="col-xs-6 col-md-2">
                 <a href="/id={{ id }}/photo/{{ image.id }}/" class="thumbnail">
-                  <img src='{{ image.img.path }}' alt="...">
+                  <img src='{{ image.img.url }}' alt="...">
                 </a>
               </div>
             {% endfor %}
