@@ -21,9 +21,9 @@
         <div class="col-lg-2">
             <div class="thumbnail">
             {% if author.avatar %}
-                <img src={% static author.avatar %}>
+                <img src='{{ author.avatar.path }}'>
             {% else %}
-                <img src={% static 'blog/images/welcome.jpg' %} alt='图片走丢了'>
+                <img src={% static 'images/welcome.jpg' %} alt='图片走丢了'>
             {% endif %}
               <div class="caption">
                 <h3>博主信息</h3>

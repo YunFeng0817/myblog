@@ -23,7 +23,7 @@
                 </blockquote>
             {% endif %}
           {% for image in essay.images.all %}
-              <img class="img-responsive" src="{% static image %}">
+              <img class="img-responsive" src="{{ image.img.path }}">
           {% endfor %}
           {% for file in essay.files.all %}
               {% include file %}

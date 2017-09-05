@@ -128,7 +128,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 MEDIA_URL = ''
-MEDIA_ROOT = os.path.join(BASE_DIR,'static')
+MEDIA_ROOT = os.path.join(BASE_DIR,'upLoad')
 
 #此段代码负责设置发送邮件认证的相关设置
 USERS_REGISTRATION_OPEN = True

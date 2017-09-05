@@ -41,7 +41,7 @@ class label(models.Model):
 class image(models.Model):
     author = models.ForeignKey(User, primary_key=False)
     introduction = models.CharField(max_length=200)
-    img = models.ImageField(upload_to='blog/images/%Y_%m_%d/')
+    img = models.ImageField(upload_to='essays/%Y_%m_%d/')
     addDate = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -115,7 +115,7 @@ class photo(models.Model):
 
 #博主的相关信息
 class authInformation(models.Model):
-    avatar = models.ImageField(upload_to='blog/images/%Y_%m_%d/')     #头像
+    avatar = models.ImageField(upload_to='essays/%Y_%m_%d/')     #头像
     introduction = models.CharField(max_length=800)
     author = models.OneToOneField(User,primary_key=True)
     birthday = models.DateField()
