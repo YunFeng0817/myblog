@@ -15,7 +15,7 @@ from django.utils import timezone
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-ESSAYS_DIR = os.path.join(BASE_DIR,'upLoad')
+ESSAYS_DIR = os.path.join(BASE_DIR,'upLoad')   #将upLoad作为templates文件夹
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -127,7 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-MEDIA_URL = '/pictures/'
+MEDIA_URL = '/pictures/'      #服务器将在配置里该url对应的路径下寻找图片     image.url 自动在up_to_load前面加上pictures/
 MEDIA_ROOT = os.path.join(BASE_DIR,'upLoad')
 
 #此段代码负责设置发送邮件认证的相关设置
