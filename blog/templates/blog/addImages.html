@@ -36,8 +36,12 @@
 <script type="text/javascript">
     $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
         $(document).ready(function () {
+                var form = new FormData();
                 var fileChoose=document.getElementById('addFile');
                 var Img = document.getElementById('image');
+                var maxlength=200*1024; //图片最大为200k
+                var canvas = document.createElement("canvas");
+                var context = canvas.getContext('2d');
                 fileChoose.onchange=function () {
                     File=fileChoose.files[0];  //获得文件
                     if(File.type!='image/jpeg')
@@ -49,34 +53,39 @@
                     fileReader.readAsDataURL(File);
                     fileReader.onload=function () {   //读文件成功的回调
                         Img.src = fileReader.result;  ////读取到的文件内容.这个属性只在读取操作完成之后才有效,并且数据的格式取决于读取操作是由哪个方法发起的.所以必须使用reader.onload，
+                        if(File.size>maxlength)
+                        {
+                            image.onload = function() {
+                            var w = image.naturalWidth,
+                                h = image.naturalHeight;
+                                canvas.width = w;
+                                canvas.height = h;
+                                context.drawImage(image, 0, 0, w, h, 0, 0, w, h);
+                            };
+                            data=canvas.toDataURL('image/jpeg',0.2); //data url的形式
+                            data = data.split(',')[1];
+                            data = window.atob(data);
+                            var ia = new Uint8Array(data.length);
+                            for (var i = 0; i < data.length; i++) {
+                                  ia[i] = data.charCodeAt(i);
+                            }
+                             //canvas.toDataURL 返回的默认格式就是 image/png
+                            var blob = new Blob([ia], {
+                             type: "image/jpeg"
+                            });
+                            alert(blob);
+                            form.append("file",blob);
+                        }
                     };
             };
         $('#saveFile').click(function (){
-            var form = new FormData();
             var words = $('#introduction').val();
-            var maxlength=200*1024; //图片最大为200k
-            canvas = document.createElement("canvas");
-            File=fileChoose.files[0];  //获得文件
-            if(File.size>maxlength)
-            {
-                compress(Img);
-            }
-            else
-                form.append("File",File);
+
+
+            //form.append("File",File);
             //alert(File.size);
-            var canvas = document.createElement('canvas');
 
-            function compress(img) {
-                canvas.width = img.width;
-                canvas.height = img.height;
 
-                //利用canvas进行绘图
-
-                //将原来图片的质量压缩到原先的0.2倍。
-                var CompressData = canvas.toBlob(function (File) {
-                    form.append("File",File);
-                },'image/jpeg', 0.2); //data url的形式
-            }
             //var File = $('#addFile')[0].files[0];
             form.append("introduction",words);
             if(File==undefined||words=='')
