@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<img src="" id="image" style="width: 200px;height:200px;">
+<img src="" id="image" >
 <br>
 <div>
     <div>
@@ -56,11 +56,13 @@
             var words = $('#introduction').val();
             var maxlength=200*1024; //图片最大为200k
             canvas = document.createElement("canvas");
-
+            File=fileChoose.files[0];  //获得文件
             if(File.size>maxlength)
             {
-                File=compress(Img);
+                compress(Img);
             }
+            else
+                form.append("File",File);
             //alert(File.size);
             var canvas = document.createElement('canvas');
 
@@ -71,12 +73,11 @@
                 //利用canvas进行绘图
 
                 //将原来图片的质量压缩到原先的0.2倍。
-                var CompressData = canvas.toDataURL('image/jpeg', 0.2); //data url的形式
-
-                return CompressData;
+                var CompressData = canvas.toBlob(function (File) {
+                    form.append("File",File);
+                },'image/jpeg', 0.2); //data url的形式
             }
             //var File = $('#addFile')[0].files[0];
-            form.append("File",File);
             form.append("introduction",words);
             if(File==undefined||words=='')
             {
