@@ -24,7 +24,7 @@ class AbstractUser(AbstractBaseUser, PermissionsMixin):
         help_text=_('Designates whether this user should be treated as '
                     'active. Unselect this instead of deleting accounts.'))
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    user_type = models.ForeignKey(ContentType, null=True, editable=False)
+    user_type = models.ForeignKey(ContentType, null=True, editable=False,on_delete=False)
 
     objects = UserInheritanceManager()
     base_objects = UserManager()
