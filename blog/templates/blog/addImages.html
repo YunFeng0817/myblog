@@ -25,6 +25,7 @@
         </div>
     </div>
 </div>
+<img src="" id="image" style="width: 200px;height:200px;">
 <br>
 <div>
     <div>
@@ -34,11 +35,47 @@
 <script type="text/javascript" src="{% static "blog/jquery.js" %}" ></script>
 <script type="text/javascript">
     $.ajaxSetup({data: {csrfmiddlewaretoken: '{{ csrf_token }}' }});
-    $(document).ready(function () {
+        $(document).ready(function () {
+                var fileChoose=document.getElementById('addFile');
+                var Img = document.getElementById('image');
+                fileChoose.onchange=function () {
+                    File=fileChoose.files[0];  //获得文件
+                    if(File.type!='image/jpeg')
+                    {
+                        alert('请勿传入除图片之外的格式');
+                        return;
+                    }
+                    var fileReader = new FileReader(); //读取客户端上的文件
+                    fileReader.readAsDataURL(File);
+                    fileReader.onload=function () {   //读文件成功的回调
+                        Img.src = fileReader.result;  ////读取到的文件内容.这个属性只在读取操作完成之后才有效,并且数据的格式取决于读取操作是由哪个方法发起的.所以必须使用reader.onload，
+                    };
+            };
         $('#saveFile').click(function (){
             var form = new FormData();
             var words = $('#introduction').val();
-            var File = $('#addFile')[0].files[0];
+            var maxlength=200*1024; //图片最大为200k
+            canvas = document.createElement("canvas");
+
+            if(File.size>maxlength)
+            {
+                File=compress(Img);
+            }
+            //alert(File.size);
+            var canvas = document.createElement('canvas');
+
+            function compress(img) {
+                canvas.width = img.width;
+                canvas.height = img.height;
+
+                //利用canvas进行绘图
+
+                //将原来图片的质量压缩到原先的0.2倍。
+                var CompressData = canvas.toDataURL('image/jpeg', 0.2); //data url的形式
+
+                return CompressData;
+            }
+            //var File = $('#addFile')[0].files[0];
             form.append("File",File);
             form.append("introduction",words);
             if(File==undefined||words=='')
