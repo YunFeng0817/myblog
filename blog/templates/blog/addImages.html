@@ -12,11 +12,16 @@
 </head>
 <body>
 <div class="form-group">
+    <br>
+    <br>
     <div class="row">
-    <div class="col-xs-6">
-        <label for="label"><h3>图片简介</h3></label>
-        <input type="text"  required class="form-control" name="label" placeholder="图片简介" id="introduction" />
-    </div>
+        <div class="col-xs-6">
+            <label for="label"><h3>图片简介</h3></label>
+            <input type="text"  required class="form-control" name="label" placeholder="图片简介" id="introduction"/>
+        </div>
+        <div class="col-xs-offset-3">
+            <img src="" id="image" style="width: 200px;height:200px;"alt="">
+        </div>
 </div>
     <div class="row">
         <div class="col-xs-6">
@@ -25,7 +30,6 @@
         </div>
     </div>
 </div>
-<img src="" id="image" >
 <br>
 <div>
     <div>
@@ -39,7 +43,7 @@
                 var form = new FormData();
                 var fileChoose=document.getElementById('addFile');
                 var Img = document.getElementById('image');
-                var maxlength=200*1024; //图片最大为200k
+                var maxlength=500*1024; //图片最大为500K
                 var canvas = document.createElement("canvas");
                 var context = canvas.getContext('2d');
                 fileChoose.onchange=function () {
@@ -55,26 +59,29 @@
                         Img.src = fileReader.result;  ////读取到的文件内容.这个属性只在读取操作完成之后才有效,并且数据的格式取决于读取操作是由哪个方法发起的.所以必须使用reader.onload，
                         if(File.size>maxlength)
                         {
-                            image.onload = function() {
-                            var w = image.naturalWidth,
-                                h = image.naturalHeight;
+                            Img.onload = function() {
+                                var w = Img.naturalWidth;
+                                var h = Img.naturalHeight;
                                 canvas.width = w;
                                 canvas.height = h;
-                                context.drawImage(image, 0, 0, w, h, 0, 0, w, h);
+                                context.drawImage(Img, 0, 0, w, h);
+                                var data=canvas.toDataURL('image/jpeg',0.4); //data url的形式
+                                data = data.split(',')[1];
+                                data = window.atob(data);
+                                var ia = new Uint8Array(data.length);
+                                for (var i = 0; i < data.length; i++) {
+                                      ia[i] = data.charCodeAt(i);
+                                }
+                                 //canvas.toDataURL 返回的默认格式就是 image/png
+                                var blob = new Blob([ia], {
+                                 type: "image/jpeg",name:Img.name
+                                });
+                                form.append("File",blob);
                             };
-                            data=canvas.toDataURL('image/jpeg',0.2); //data url的形式
-                            data = data.split(',')[1];
-                            data = window.atob(data);
-                            var ia = new Uint8Array(data.length);
-                            for (var i = 0; i < data.length; i++) {
-                                  ia[i] = data.charCodeAt(i);
-                            }
-                             //canvas.toDataURL 返回的默认格式就是 image/png
-                            var blob = new Blob([ia], {
-                             type: "image/jpeg"
-                            });
-                            alert(blob);
-                            form.append("file",blob);
+                        }
+                        else
+                        {
+                            form.append("File",File);
                         }
                     };
             };

@@ -5,10 +5,10 @@
     <div class="panel inline-group">
     <ul class="list-inline">
         {% if contentType %}
-            <li><a href="/id={{ id }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>主页</h4></a></li>
+            <li><a href="/{{ id }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>主页</h4></a></li>
         {% endif %}
         {% if essay.title or image %}
-            <li><a href="/id={{ id }}/{{ contentURL }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>{{ contentType }}</h4></a></li>
+            <li><a href="/{{ id }}/{{ contentURL }}/" style="text-decoration: none;color: #0e90d2"><h4><span class="glyphicon glyphicon-menu-left"></span>{{ contentType }}</h4></a></li>
         {% endif %}
         <li><a href="" style="text-decoration: none;color: grey"><h4><span class="glyphicon glyphicon-menu-left"></span>
             {% if essay.title %}
@@ -168,7 +168,7 @@
         window.opener.close()
     }
     function open_win_image() {
-        myWindow=window.open('/{{ id }}/image/add/','上传新图片','directories=no,location=no,width=500,height=250，_blank,left=400,top=200');
+        myWindow=window.open('/{{ id }}/image/add/','上传新图片','directories=no,location=no,width=500,height=400，_blank,left=400,top=200');
         myWindow.focus();
         window.opener.close()
     }

@@ -308,7 +308,7 @@ def addImages(request, current_user):
             id = imageObject.id
             return JsonResponse({"response":"上传成功","id":id,"path":imageObject.img.url})
         else:
-            return HttpResponse('非法访问')
+            return HttpResponse('绘画')
     else:
         return render(request, 'blog/addImages.html')
 
