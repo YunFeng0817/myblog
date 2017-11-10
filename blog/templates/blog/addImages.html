@@ -65,7 +65,8 @@
                                 canvas.width = w;
                                 canvas.height = h;
                                 context.drawImage(Img, 0, 0, w, h);
-                                var data=canvas.toDataURL('image/jpeg',0.4); //data url的形式
+                                var temp=maxlength/File.size+0.2;
+                                var data=canvas.toDataURL('image/jpeg',temp); //data url的形式
                                 data = data.split(',')[1];
                                 data = window.atob(data);
                                 var ia = new Uint8Array(data.length);
